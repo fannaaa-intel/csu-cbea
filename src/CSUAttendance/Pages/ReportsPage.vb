@@ -155,6 +155,8 @@ Public Class ReportsPage
                 Case 3 : dt = WarningList()
                 Case Else : dt = DateRange()
             End Select
+            grid.DataSource = Nothing
+            grid.Columns.Clear()             ' fresh columns: no hidden column or order left over from the previous report
             grid.DataSource = dt
             ApplyHeaders()
             lblNote.Text = Ui.Plural(dt.Rows.Count, "row")
@@ -238,7 +240,6 @@ Public Class ReportsPage
     End Function
 
     Private Function DateRange() As DataTable
-        _summary.Add($"Meetings from {dtpFrom.Value:MMMM d, yyyy} to {dtpTo.Value:MMMM d, yyyy}")
         Return Db.Query(
             "SELECT st.student_no, " & TextUtil.SortableNameSql("st") & " AS student_name, " &
             "       COALESCE(SUM(ar.status = 'Present'), 0) AS present_count, COALESCE(SUM(ar.status = 'Late'), 0) AS late_count, " &
@@ -321,7 +322,7 @@ Public Class ReportsPage
             Case 1 : Return $"Class: {cboClass.Text}    Term: {Lookups.ActiveTermLabel()}"
             Case 2 : Return $"Student: {cboStudent.Text}    Term: {Lookups.ActiveTermLabel()}"
             Case 3 : Return $"Section: {cboSection.Text}    Term: {Lookups.ActiveTermLabel()}    Basis: CSU Student Manual s.II.B.4, s.II.C.2.1"
-            Case Else : Return $"Class: {cboClass.Text}    From {dtpFrom.Value:MMM d, yyyy} to {dtpTo.Value:MMM d, yyyy}"
+            Case Else : Return $"Class: {cboClass.Text}    Period: {dtpFrom.Value:MMM d, yyyy} to {dtpTo.Value:MMM d, yyyy}"
         End Select
     End Function
 
@@ -337,7 +338,11 @@ Public Class ReportsPage
 
     Private Sub ExportCsv()
         Try
-            Dim path = CsvExporter.Export(grid, Reports(ReportIndex).Title, FindForm())
+            Dim heading As New List(Of String) From {AppSettings.SchoolName.ToUpper(), Reports(ReportIndex).Title.ToUpper()}
+            heading.AddRange(FilterLine().Replace("  ·  ", " · ").Split({"    "}, StringSplitOptions.RemoveEmptyEntries))
+            heading.AddRange(_summary)
+            heading.Add($"Exported: {Date.Now:MMMM d, yyyy h:mm tt} by {Session.User.FullName}")
+            Dim path = CsvExporter.Export(grid, Reports(ReportIndex).Title, FindForm(), heading)
             If path = "" Then Return
             Audit.Log("EXPORT", "Report", 0, $"{Reports(ReportIndex).Title} → {IO.Path.GetFileName(path)}")
             ShowToast($"Saved {IO.Path.GetFileName(path)}")
