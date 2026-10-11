@@ -17,6 +17,7 @@ Public Class StudentsPage
         Theme.StyleDanger(btnDelete, Icons.Delete)
         Theme.StyleCombo(cboSection)
         Theme.StyleGrid(dgv)
+        If TypeOf NavigationArg Is String Then txtSearch.Text = CStr(NavigationArg)   ' opened from User Accounts
         LoadSections()
         LoadData()
     End Sub
@@ -140,12 +141,11 @@ Public Class StudentsPage
         Try
             Dim records = Db.ToInt(Db.Scalar("SELECT COUNT(*) FROM attendance_records WHERE student_id = @id", Db.P("@id", id)))
             If records > 0 Then
-                MessageBox.Show(FindForm(), $"{name} has {records} attendance record(s) and cannot be deleted." & Environment.NewLine &
-                                "Edit the student and set Status to Inactive instead.",
-                                "Student has attendance", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Notice.Info(Me, "Student has attendance", $"{name} has {records} attendance record(s) and cannot be deleted." & Environment.NewLine &
+                                "Edit the student and set Status to Inactive instead.")
                 Return
             End If
-            If Not Confirm($"Delete student {studentNo} {name} and their login account? This cannot be undone.", "Delete student") Then Return
+            If Not Confirm($"Delete student {studentNo} {name} and their login account? This cannot be undone.", "Delete student", "Delete", True) Then Return
 
             Db.InTransaction(Sub(cn, tx)
                                  Dim userId = Db.ToInt(Db.Scalar(cn, tx, "SELECT user_id FROM students WHERE student_id = @id", Db.P("@id", id)))

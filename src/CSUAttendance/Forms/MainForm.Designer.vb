@@ -134,13 +134,13 @@ Partial Class MainForm
         '
         'flpNav
         '
-        Me.flpNav.AutoScroll = True
+        Me.flpNav.AutoScroll = False
         Me.flpNav.BackColor = System.Drawing.Color.White
         Me.flpNav.Dock = System.Windows.Forms.DockStyle.Fill
         Me.flpNav.FlowDirection = System.Windows.Forms.FlowDirection.TopDown
         Me.flpNav.Location = New System.Drawing.Point(0, 76)
         Me.flpNav.Name = "flpNav"
-        Me.flpNav.Padding = New System.Windows.Forms.Padding(14, 8, 14, 8)
+        Me.flpNav.Padding = New System.Windows.Forms.Padding(14, 2, 14, 4)
         Me.flpNav.Size = New System.Drawing.Size(240, 608)
         Me.flpNav.TabIndex = 0
         Me.flpNav.WrapContents = False
@@ -155,7 +155,7 @@ Partial Class MainForm
         Me.pnlUser.Dock = System.Windows.Forms.DockStyle.Bottom
         Me.pnlUser.Location = New System.Drawing.Point(0, 684)
         Me.pnlUser.Name = "pnlUser"
-        Me.pnlUser.Size = New System.Drawing.Size(240, 76)
+        Me.pnlUser.Size = New System.Drawing.Size(240, 64)
         Me.pnlUser.TabIndex = 1
         '
         'btnLogout
@@ -166,7 +166,7 @@ Partial Class MainForm
         Me.btnLogout.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.btnLogout.Font = New System.Drawing.Font("Segoe MDL2 Assets", 11.0!)
         Me.btnLogout.ForeColor = System.Drawing.Color.FromArgb(CType(CType(107, Byte), Integer), CType(CType(114, Byte), Integer), CType(CType(128, Byte), Integer))
-        Me.btnLogout.Location = New System.Drawing.Point(190, 20)
+        Me.btnLogout.Location = New System.Drawing.Point(190, 14)
         Me.btnLogout.Name = "btnLogout"
         Me.btnLogout.Size = New System.Drawing.Size(36, 36)
         Me.btnLogout.TabIndex = 3
@@ -177,7 +177,7 @@ Partial Class MainForm
         Me.lblUserRole.AutoEllipsis = True
         Me.lblUserRole.Font = New System.Drawing.Font("Segoe UI", 8.5!)
         Me.lblUserRole.ForeColor = System.Drawing.Color.FromArgb(CType(CType(107, Byte), Integer), CType(CType(114, Byte), Integer), CType(CType(128, Byte), Integer))
-        Me.lblUserRole.Location = New System.Drawing.Point(62, 40)
+        Me.lblUserRole.Location = New System.Drawing.Point(62, 34)
         Me.lblUserRole.Name = "lblUserRole"
         Me.lblUserRole.Size = New System.Drawing.Size(124, 18)
         Me.lblUserRole.TabIndex = 2
@@ -188,7 +188,7 @@ Partial Class MainForm
         Me.lblUserName.AutoEllipsis = True
         Me.lblUserName.Font = New System.Drawing.Font("Segoe UI Semibold", 9.5!)
         Me.lblUserName.ForeColor = System.Drawing.Color.FromArgb(CType(CType(31, Byte), Integer), CType(CType(35, Byte), Integer), CType(CType(40, Byte), Integer))
-        Me.lblUserName.Location = New System.Drawing.Point(62, 20)
+        Me.lblUserName.Location = New System.Drawing.Point(62, 14)
         Me.lblUserName.Name = "lblUserName"
         Me.lblUserName.Size = New System.Drawing.Size(124, 20)
         Me.lblUserName.TabIndex = 1
@@ -199,7 +199,7 @@ Partial Class MainForm
         Me.lblAvatar.BackColor = System.Drawing.Color.FromArgb(CType(CType(252, Byte), Integer), CType(CType(232, Byte), Integer), CType(CType(236, Byte), Integer))
         Me.lblAvatar.Font = New System.Drawing.Font("Segoe UI Semibold", 10.0!)
         Me.lblAvatar.ForeColor = System.Drawing.Color.FromArgb(CType(CType(217, Byte), Integer), CType(CType(79, Byte), Integer), CType(CType(112, Byte), Integer))
-        Me.lblAvatar.Location = New System.Drawing.Point(16, 20)
+        Me.lblAvatar.Location = New System.Drawing.Point(16, 14)
         Me.lblAvatar.Name = "lblAvatar"
         Me.lblAvatar.Size = New System.Drawing.Size(38, 38)
         Me.lblAvatar.TabIndex = 0
@@ -215,7 +215,7 @@ Partial Class MainForm
         Me.pnlBrand.Dock = System.Windows.Forms.DockStyle.Top
         Me.pnlBrand.Location = New System.Drawing.Point(0, 0)
         Me.pnlBrand.Name = "pnlBrand"
-        Me.pnlBrand.Size = New System.Drawing.Size(240, 76)
+        Me.pnlBrand.Size = New System.Drawing.Size(240, 62)
         Me.pnlBrand.TabIndex = 2
         '
         'lblAppSub
@@ -223,7 +223,7 @@ Partial Class MainForm
         Me.lblAppSub.AutoSize = True
         Me.lblAppSub.Font = New System.Drawing.Font("Segoe UI", 8.5!)
         Me.lblAppSub.ForeColor = System.Drawing.Color.FromArgb(CType(CType(107, Byte), Integer), CType(CType(114, Byte), Integer), CType(CType(128, Byte), Integer))
-        Me.lblAppSub.Location = New System.Drawing.Point(63, 40)
+        Me.lblAppSub.Location = New System.Drawing.Point(63, 33)
         Me.lblAppSub.Name = "lblAppSub"
         Me.lblAppSub.Size = New System.Drawing.Size(115, 15)
         Me.lblAppSub.TabIndex = 2
@@ -234,7 +234,7 @@ Partial Class MainForm
         Me.lblAppName.AutoSize = True
         Me.lblAppName.Font = New System.Drawing.Font("Segoe UI Semibold", 11.0!)
         Me.lblAppName.ForeColor = System.Drawing.Color.FromArgb(CType(CType(31, Byte), Integer), CType(CType(35, Byte), Integer), CType(CType(40, Byte), Integer))
-        Me.lblAppName.Location = New System.Drawing.Point(62, 18)
+        Me.lblAppName.Location = New System.Drawing.Point(62, 12)
         Me.lblAppName.Name = "lblAppName"
         Me.lblAppName.Size = New System.Drawing.Size(124, 20)
         Me.lblAppName.TabIndex = 1
@@ -245,9 +245,9 @@ Partial Class MainForm
         Me.lblLogo.BackColor = System.Drawing.Color.FromArgb(CType(CType(217, Byte), Integer), CType(CType(79, Byte), Integer), CType(CType(112, Byte), Integer))
         Me.lblLogo.Font = New System.Drawing.Font("Segoe MDL2 Assets", 14.0!)
         Me.lblLogo.ForeColor = System.Drawing.Color.White
-        Me.lblLogo.Location = New System.Drawing.Point(16, 18)
+        Me.lblLogo.Location = New System.Drawing.Point(18, 13)
         Me.lblLogo.Name = "lblLogo"
-        Me.lblLogo.Size = New System.Drawing.Size(38, 38)
+        Me.lblLogo.Size = New System.Drawing.Size(36, 36)
         Me.lblLogo.TabIndex = 0
         Me.lblLogo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '

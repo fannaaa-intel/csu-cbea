@@ -30,7 +30,7 @@ Public Class TextField
         _box.ForeColor = Theme.TextPrimary
         _box.BackColor = Theme.Surface
         Controls.Add(_box)
-        Size = New Size(240, Theme.ControlHeight)
+        Size = New Size(Theme.Dpi(240), Theme.Dpi(Theme.ControlHeight))
         Cursor = Cursors.IBeam
     End Sub
 
@@ -116,8 +116,8 @@ Public Class TextField
 
     Protected Overrides Sub OnLayout(levent As LayoutEventArgs)
         MyBase.OnLayout(levent)
-        _box.Location = New Point(12, Math.Max(0, (Height - _box.Height) \ 2))
-        _box.Width = Math.Max(10, Width - 24)
+        _box.Location = New Point(Theme.Dpi(12), Math.Max(0, (Height - _box.Height) \ 2))
+        _box.Width = Math.Max(10, Width - Theme.Dpi(24))
     End Sub
 
     Protected Overrides Sub OnPaint(e As PaintEventArgs)
@@ -125,7 +125,7 @@ Public Class TextField
         e.Graphics.Clear(parentColor)
         e.Graphics.SmoothingMode = SmoothingMode.AntiAlias
         Dim r As New Rectangle(0, 0, Width - 1, Height - 1)
-        Using path = Theme.RoundedRect(r, 6), br As New SolidBrush(_box.BackColor),
+        Using path = Theme.RoundedRect(r, Theme.Dpi(6)), br As New SolidBrush(_box.BackColor),
               pen As New Pen(If(_focused, Theme.Accent, Theme.Border), If(_focused, 1.5F, 1.0F))
             e.Graphics.FillPath(br, path)
             e.Graphics.DrawPath(pen, path)

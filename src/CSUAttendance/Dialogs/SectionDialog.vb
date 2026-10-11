@@ -17,6 +17,7 @@ Public Class SectionDialog
 
     Private Sub SectionDialog_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Theme.StylePrimary(btnSave)
+        SetRail(Icons.Sections, "Section", "A block of students, like BSAIS 3B. Classes are scheduled for a section.")
         Theme.StyleSecondary(btnCancel)
         If _id > 0 Then
             lblTitle.Text = "Edit section"
@@ -74,8 +75,7 @@ Public Class SectionDialog
         Catch ex As Exception When Db.IsDuplicate(ex)
             errProvider.SetError(txtName, $"Section {name} already exists.")
         Catch ex As Exception
-            MessageBox.Show(Me, "Could not save the section." & Environment.NewLine & Environment.NewLine & ex.Message,
-                            "Something went wrong", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Notice.Fail(Me, "Could not save the section", "Please check your connection and the details, then try again.", ex.Message)
         End Try
     End Sub
 

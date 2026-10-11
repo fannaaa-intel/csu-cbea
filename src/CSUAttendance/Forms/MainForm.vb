@@ -22,7 +22,16 @@ Public Class MainForm
         lblUserRole.Text = u.Role
         lblAvatar.Text = Initials(u.FullName)
         lblDate.Text = Date.Today.ToString("dddd, MMMM d, yyyy")
-        lblLogo.Text = Icons.Classes
+        lblLogo.Text = "CSU"
+        lblLogo.Font = Theme.FontSmallBold
+        lblAppSub.AutoSize = False
+        lblAppSub.AutoEllipsis = True
+        lblAppSub.Width = pnlBrand.ClientSize.Width - lblAppSub.Left - Theme.Dpi(12)
+        Try
+            lblAppSub.Text = Lookups.ActiveTermLabel()
+        Catch ex As Exception
+            lblAppSub.Text = "Attendance Management"
+        End Try
         btnBell.Text = Icons.Bell
         btnLogout.Text = Icons.Logout
         Dim tip As New ToolTip()
@@ -30,7 +39,7 @@ Public Class MainForm
         tip.SetToolTip(btnLogout, "Log out")
 
         MakeRound(lblAvatar)
-        MakeRound(lblLogo, 10)
+        MakeRound(lblLogo)                       ' circular CSU seal
         MakeRound(lblBellCount, 8)
 
         BuildMenu()
@@ -46,7 +55,10 @@ Public Class MainForm
         flpNav.SuspendLayout()
         flpNav.Controls.Clear()
         _navButtons.Clear()
+        Dim lastGroup = ""
         For Each item In PageRegistry.MenuFor(Session.User.Role)
+            If item.Group <> "" AndAlso item.Group <> lastGroup Then flpNav.Controls.Add(GroupCaption(item.Group))
+            lastGroup = item.Group
             Dim b As New NavButton With {
                 .Text = item.Text,
                 .Glyph = item.Glyph,
@@ -59,6 +71,15 @@ Public Class MainForm
         Next
         flpNav.ResumeLayout()
     End Sub
+
+    ''' <summary>Small uppercase caption above a group of menu items (e.g. "RECORDS").</summary>
+    Private Function GroupCaption(text As String) As Label
+        Return New Label With {
+            .Text = text.ToUpper(), .Font = Theme.FontSmallBold, .ForeColor = Theme.TextMuted, .BackColor = Theme.Surface,
+            .AutoSize = False, .Size = New Size(NavButtonWidth(), Theme.Dpi(24)), .TextAlign = ContentAlignment.BottomLeft,
+            .Padding = New Padding(Theme.Dpi(14), 0, 0, Theme.Dpi(3)), .Margin = New Padding(0, Theme.Dpi(2), 0, 0)
+        }
+    End Function
 
     Private Sub NavButton_Click(sender As Object, e As EventArgs)
         Navigate(DirectCast(sender, NavButton).PageKey)
@@ -76,8 +97,7 @@ Public Class MainForm
         Try
             page = PageRegistry.Create(key)
         Catch ex As Exception
-            MessageBox.Show(Me, "Could not open this page." & Environment.NewLine & Environment.NewLine & ex.Message,
-                            "Something went wrong", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Notice.Fail(Me, "Could not open this page", "Something went wrong while opening the page.", ex.Message)
             Return
         End Try
 
@@ -103,8 +123,7 @@ Public Class MainForm
         Try
             page.OnPageShown()
         Catch ex As Exception
-            MessageBox.Show(Me, "Could not load the data for this page." & Environment.NewLine & Environment.NewLine & ex.Message,
-                            "Something went wrong", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Notice.Fail(Me, "Could not load this page", "Please check that MySQL is running in XAMPP, then open the page again.", ex.Message)
         End Try
     End Sub
 
@@ -122,8 +141,8 @@ Public Class MainForm
 
     Private Sub flpNav_Resize(sender As Object, e As EventArgs) Handles flpNav.Resize
         Dim w = NavButtonWidth()
-        For Each b In _navButtons
-            b.Width = w
+        For Each c As Control In flpNav.Controls
+            c.Width = w
         Next
     End Sub
 
@@ -154,7 +173,7 @@ Public Class MainForm
     ' ------------------------------------------------------------------
     Private Sub btnLogout_Click(sender As Object, e As EventArgs) Handles btnLogout.Click
         If _current IsNot Nothing AndAlso Not _current.CanLeave() Then Return
-        If MessageBox.Show(Me, "Log out of the system?", "Log out", MessageBoxButtons.YesNo, MessageBoxIcon.Question) <> DialogResult.Yes Then Return
+        If Not Notice.Confirm(Me, "Log out", "You will return to the sign-in screen.", "Log out", "Stay") Then Return
         Audit.Log("LOGOUT", "User", Session.UserId)
         LoggedOut = True
         _current = Nothing
@@ -175,6 +194,16 @@ Public Class MainForm
     Private Sub pnlSidebar_Paint(sender As Object, e As PaintEventArgs) Handles pnlSidebar.Paint
         Using pen As New Pen(Theme.Border)
             e.Graphics.DrawLine(pen, pnlSidebar.Width - 1, 0, pnlSidebar.Width - 1, pnlSidebar.Height)
+        End Using
+    End Sub
+
+    ''' <summary>Thin rose ring around the circular CSU seal.</summary>
+    Private Sub pnlBrand_Paint(sender As Object, e As PaintEventArgs) Handles pnlBrand.Paint
+        e.Graphics.SmoothingMode = Drawing2D.SmoothingMode.AntiAlias
+        Dim r = lblLogo.Bounds
+        r.Inflate(Theme.Dpi(3), Theme.Dpi(3))
+        Using pen As New Pen(Theme.AccentSoft, Theme.Dpi(2))
+            e.Graphics.DrawEllipse(pen, r)
         End Using
     End Sub
 

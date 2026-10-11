@@ -102,19 +102,17 @@ Public Class SectionsPage
         Dim name = Db.ToStr(dgv.CurrentRow.Cells("section_name").Value)
         ' students.section_id would silently become NULL, so block the delete ourselves.
         If Db.ToInt(dgv.CurrentRow.Cells("student_count").Value) > 0 Then
-            MessageBox.Show(FindForm(), $"{name} still has students. Move them to another section first.",
-                            "Section in use", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Notice.Info(Me, "Section in use", $"{name} still has students. Move them to another section first.")
             Return
         End If
-        If Not Confirm($"Delete section {name}? This cannot be undone.", "Delete section") Then Return
+        If Not Confirm($"Delete section {name}? This cannot be undone.", "Delete section", "Delete", True) Then Return
         Try
             Db.Execute("DELETE FROM sections WHERE section_id = @id", Db.P("@id", id))
             Audit.Log("DELETE", "Section", id, name)
             LoadData()
             ShowToast("Section deleted")
         Catch ex As Exception When Db.IsInUse(ex)
-            MessageBox.Show(FindForm(), $"{name} is used by one or more classes and cannot be deleted.",
-                            "Section in use", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Notice.Info(Me, "Section in use", $"{name} is used by one or more classes and cannot be deleted.")
         Catch ex As Exception
             ShowError(ex, "delete the section")
         End Try

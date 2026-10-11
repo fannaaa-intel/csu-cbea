@@ -17,6 +17,7 @@ Public Class TermDialog
 
     Private Sub TermDialog_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Theme.StylePrimary(btnSave)
+        SetRail(Icons.Terms, "School term", "A school year and semester. Only one term is active at a time; every page shows the active term first.")
         Theme.StyleSecondary(btnCancel)
         Theme.StyleCombo(cboSemester)
 
@@ -85,8 +86,7 @@ Public Class TermDialog
         Catch ex As Exception When Db.IsDuplicate(ex)
             errProvider.SetError(cboSemester, $"{label} already exists.")
         Catch ex As Exception
-            MessageBox.Show(Me, "Could not save the term." & Environment.NewLine & Environment.NewLine & ex.Message,
-                            "Something went wrong", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Notice.Fail(Me, "Could not save the term", "Please check your connection and the details, then try again.", ex.Message)
         End Try
     End Sub
 

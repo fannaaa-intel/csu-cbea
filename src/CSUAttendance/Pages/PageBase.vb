@@ -42,12 +42,13 @@ Public Class PageBase
 
     ''' <summary>Standard error message for unexpected failures.</summary>
     Protected Sub ShowError(ex As Exception, Optional action As String = "complete the action")
-        MessageBox.Show(FindForm(), $"Could not {action}." & Environment.NewLine & Environment.NewLine & ex.Message,
-                        "Something went wrong", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        Notice.Fail(Me, $"Could not {action}", "Please check that MySQL is running in XAMPP, then try again.", ex.Message)
     End Sub
 
-    Protected Function Confirm(message As String, Optional title As String = "Please confirm") As Boolean
-        Return MessageBox.Show(FindForm(), message, title, MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes
+    ''' <summary>Yes/No confirmation. Use danger:=True (red) for deletes and other actions that cannot be undone.</summary>
+    Protected Function Confirm(message As String, Optional title As String = "Please confirm",
+                               Optional okText As String = "Yes, continue", Optional danger As Boolean = False) As Boolean
+        Return Notice.Confirm(Me, title, message, okText, "Cancel", danger)
     End Function
 
 End Class

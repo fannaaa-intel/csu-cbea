@@ -100,15 +100,14 @@ Public Class SubjectsPage
         Dim id = SelectedId()
         If id = 0 Then Return
         Dim code = Db.ToStr(dgv.CurrentRow.Cells("subject_code").Value)
-        If Not Confirm($"Delete subject {code}? This cannot be undone.", "Delete subject") Then Return
+        If Not Confirm($"Delete subject {code}? This cannot be undone.", "Delete subject", "Delete", True) Then Return
         Try
             Db.Execute("DELETE FROM subjects WHERE subject_id = @id", Db.P("@id", id))
             Audit.Log("DELETE", "Subject", id, code)
             LoadData()
             ShowToast("Subject deleted")
         Catch ex As Exception When Db.IsInUse(ex)
-            MessageBox.Show(FindForm(), $"{code} is used by one or more classes and cannot be deleted.",
-                            "Subject in use", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Notice.Info(Me, "Subject in use", $"{code} is used by one or more classes and cannot be deleted.")
         Catch ex As Exception
             ShowError(ex, "delete the subject")
         End Try

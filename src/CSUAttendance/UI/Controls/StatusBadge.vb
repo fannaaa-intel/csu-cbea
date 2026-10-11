@@ -9,8 +9,8 @@ Public Class StatusBadge
     Public Sub New()
         SetStyle(ControlStyles.AllPaintingInWmPaint Or ControlStyles.OptimizedDoubleBuffer Or
                  ControlStyles.ResizeRedraw Or ControlStyles.UserPaint Or ControlStyles.SupportsTransparentBackColor, True)
-        Font = Theme.FontSmall
-        Size = New Size(80, 24)
+        Font = Theme.FontSmallBold
+        Size = New Size(Theme.Dpi(80), Theme.Dpi(24))
         BackColor = Color.Transparent
         Text = "Good"
     End Sub
@@ -18,7 +18,7 @@ Public Class StatusBadge
     Protected Overrides Sub OnTextChanged(e As EventArgs)
         MyBase.OnTextChanged(e)
         Dim sz = TextRenderer.MeasureText(If(Text, ""), Font)
-        Width = sz.Width + 18
+        Width = sz.Width + Theme.Dpi(18)
         Invalidate()
     End Sub
 

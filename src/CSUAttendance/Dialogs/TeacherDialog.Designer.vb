@@ -1,6 +1,6 @@
 <Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class TeacherDialog
-    Inherits System.Windows.Forms.Form
+    Inherits Global.CSUAttendance.SheetForm
 
     'Form overrides dispose to clean up the component list.
     <System.Diagnostics.DebuggerNonUserCode()>
@@ -50,7 +50,7 @@ Partial Class TeacherDialog
         Me.lblTitle.AutoSize = True
         Me.lblTitle.Font = New System.Drawing.Font("Segoe UI Semibold", 15.0!)
         Me.lblTitle.ForeColor = System.Drawing.Color.FromArgb(CType(CType(31, Byte), Integer), CType(CType(35, Byte), Integer), CType(CType(40, Byte), Integer))
-        Me.lblTitle.Location = New System.Drawing.Point(28, 24)
+        Me.lblTitle.Location = New System.Drawing.Point(238, 24)
         Me.lblTitle.Name = "lblTitle"
         Me.lblTitle.Size = New System.Drawing.Size(124, 28)
         Me.lblTitle.TabIndex = 20
@@ -60,7 +60,7 @@ Partial Class TeacherDialog
         '
         Me.lblEmpNo.AutoSize = True
         Me.lblEmpNo.Font = New System.Drawing.Font("Segoe UI Semibold", 9.0!)
-        Me.lblEmpNo.Location = New System.Drawing.Point(28, 76)
+        Me.lblEmpNo.Location = New System.Drawing.Point(238, 76)
         Me.lblEmpNo.Name = "lblEmpNo"
         Me.lblEmpNo.Size = New System.Drawing.Size(80, 15)
         Me.lblEmpNo.TabIndex = 21
@@ -68,7 +68,7 @@ Partial Class TeacherDialog
         '
         'txtEmpNo
         '
-        Me.txtEmpNo.Location = New System.Drawing.Point(30, 96)
+        Me.txtEmpNo.Location = New System.Drawing.Point(240, 96)
         Me.txtEmpNo.MaxLength = 20
         Me.txtEmpNo.Name = "txtEmpNo"
         Me.txtEmpNo.Placeholder = "e.g. EMP-1004"
@@ -79,7 +79,7 @@ Partial Class TeacherDialog
         '
         Me.lblUsername.AutoSize = True
         Me.lblUsername.Font = New System.Drawing.Font("Segoe UI Semibold", 9.0!)
-        Me.lblUsername.Location = New System.Drawing.Point(248, 76)
+        Me.lblUsername.Location = New System.Drawing.Point(458, 76)
         Me.lblUsername.Name = "lblUsername"
         Me.lblUsername.Size = New System.Drawing.Size(61, 15)
         Me.lblUsername.TabIndex = 22
@@ -87,7 +87,7 @@ Partial Class TeacherDialog
         '
         'txtUsername
         '
-        Me.txtUsername.Location = New System.Drawing.Point(250, 96)
+        Me.txtUsername.Location = New System.Drawing.Point(460, 96)
         Me.txtUsername.MaxLength = 50
         Me.txtUsername.Name = "txtUsername"
         Me.txtUsername.Placeholder = "e.g. jdelacruz"
@@ -98,7 +98,7 @@ Partial Class TeacherDialog
         '
         Me.lblFirst.AutoSize = True
         Me.lblFirst.Font = New System.Drawing.Font("Segoe UI Semibold", 9.0!)
-        Me.lblFirst.Location = New System.Drawing.Point(28, 146)
+        Me.lblFirst.Location = New System.Drawing.Point(238, 146)
         Me.lblFirst.Name = "lblFirst"
         Me.lblFirst.Size = New System.Drawing.Size(66, 15)
         Me.lblFirst.TabIndex = 23
@@ -106,7 +106,7 @@ Partial Class TeacherDialog
         '
         'txtFirst
         '
-        Me.txtFirst.Location = New System.Drawing.Point(30, 166)
+        Me.txtFirst.Location = New System.Drawing.Point(240, 166)
         Me.txtFirst.MaxLength = 50
         Me.txtFirst.Name = "txtFirst"
         Me.txtFirst.Size = New System.Drawing.Size(150, 36)
@@ -116,7 +116,7 @@ Partial Class TeacherDialog
         '
         Me.lblMiddle.AutoSize = True
         Me.lblMiddle.Font = New System.Drawing.Font("Segoe UI Semibold", 9.0!)
-        Me.lblMiddle.Location = New System.Drawing.Point(188, 146)
+        Me.lblMiddle.Location = New System.Drawing.Point(398, 146)
         Me.lblMiddle.Name = "lblMiddle"
         Me.lblMiddle.Size = New System.Drawing.Size(82, 15)
         Me.lblMiddle.TabIndex = 24
@@ -124,7 +124,7 @@ Partial Class TeacherDialog
         '
         'txtMiddle
         '
-        Me.txtMiddle.Location = New System.Drawing.Point(190, 166)
+        Me.txtMiddle.Location = New System.Drawing.Point(400, 166)
         Me.txtMiddle.MaxLength = 50
         Me.txtMiddle.Name = "txtMiddle"
         Me.txtMiddle.Placeholder = "optional"
@@ -135,7 +135,7 @@ Partial Class TeacherDialog
         '
         Me.lblLast.AutoSize = True
         Me.lblLast.Font = New System.Drawing.Font("Segoe UI Semibold", 9.0!)
-        Me.lblLast.Location = New System.Drawing.Point(338, 146)
+        Me.lblLast.Location = New System.Drawing.Point(548, 146)
         Me.lblLast.Name = "lblLast"
         Me.lblLast.Size = New System.Drawing.Size(64, 15)
         Me.lblLast.TabIndex = 25
@@ -143,7 +143,7 @@ Partial Class TeacherDialog
         '
         'txtLast
         '
-        Me.txtLast.Location = New System.Drawing.Point(340, 166)
+        Me.txtLast.Location = New System.Drawing.Point(550, 166)
         Me.txtLast.MaxLength = 50
         Me.txtLast.Name = "txtLast"
         Me.txtLast.Size = New System.Drawing.Size(150, 36)
@@ -153,7 +153,7 @@ Partial Class TeacherDialog
         '
         Me.lblDepartment.AutoSize = True
         Me.lblDepartment.Font = New System.Drawing.Font("Segoe UI Semibold", 9.0!)
-        Me.lblDepartment.Location = New System.Drawing.Point(28, 216)
+        Me.lblDepartment.Location = New System.Drawing.Point(238, 216)
         Me.lblDepartment.Name = "lblDepartment"
         Me.lblDepartment.Size = New System.Drawing.Size(74, 15)
         Me.lblDepartment.TabIndex = 26
@@ -161,7 +161,7 @@ Partial Class TeacherDialog
         '
         'txtDepartment
         '
-        Me.txtDepartment.Location = New System.Drawing.Point(30, 236)
+        Me.txtDepartment.Location = New System.Drawing.Point(240, 236)
         Me.txtDepartment.MaxLength = 100
         Me.txtDepartment.Name = "txtDepartment"
         Me.txtDepartment.Placeholder = "optional"
@@ -172,7 +172,7 @@ Partial Class TeacherDialog
         '
         Me.lblContact.AutoSize = True
         Me.lblContact.Font = New System.Drawing.Font("Segoe UI Semibold", 9.0!)
-        Me.lblContact.Location = New System.Drawing.Point(338, 216)
+        Me.lblContact.Location = New System.Drawing.Point(548, 216)
         Me.lblContact.Name = "lblContact"
         Me.lblContact.Size = New System.Drawing.Size(71, 15)
         Me.lblContact.TabIndex = 27
@@ -180,7 +180,7 @@ Partial Class TeacherDialog
         '
         'txtContact
         '
-        Me.txtContact.Location = New System.Drawing.Point(340, 236)
+        Me.txtContact.Location = New System.Drawing.Point(550, 236)
         Me.txtContact.MaxLength = 20
         Me.txtContact.Name = "txtContact"
         Me.txtContact.Placeholder = "optional"
@@ -191,7 +191,7 @@ Partial Class TeacherDialog
         '
         Me.lblHint.Font = New System.Drawing.Font("Segoe UI", 9.0!)
         Me.lblHint.ForeColor = System.Drawing.Color.FromArgb(CType(CType(107, Byte), Integer), CType(CType(114, Byte), Integer), CType(CType(128, Byte), Integer))
-        Me.lblHint.Location = New System.Drawing.Point(28, 284)
+        Me.lblHint.Location = New System.Drawing.Point(238, 284)
         Me.lblHint.Name = "lblHint"
         Me.lblHint.Size = New System.Drawing.Size(462, 34)
         Me.lblHint.TabIndex = 28
@@ -199,7 +199,7 @@ Partial Class TeacherDialog
         '
         'btnSave
         '
-        Me.btnSave.Location = New System.Drawing.Point(394, 330)
+        Me.btnSave.Location = New System.Drawing.Point(604, 326)
         Me.btnSave.Name = "btnSave"
         Me.btnSave.Size = New System.Drawing.Size(96, 36)
         Me.btnSave.TabIndex = 7
@@ -209,7 +209,7 @@ Partial Class TeacherDialog
         'btnCancel
         '
         Me.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel
-        Me.btnCancel.Location = New System.Drawing.Point(290, 330)
+        Me.btnCancel.Location = New System.Drawing.Point(500, 326)
         Me.btnCancel.Name = "btnCancel"
         Me.btnCancel.Size = New System.Drawing.Size(96, 36)
         Me.btnCancel.TabIndex = 8
@@ -228,7 +228,7 @@ Partial Class TeacherDialog
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi
         Me.BackColor = System.Drawing.Color.White
         Me.CancelButton = Me.btnCancel
-        Me.ClientSize = New System.Drawing.Size(520, 390)
+        Me.ClientSize = New System.Drawing.Size(730, 390)
         Me.Controls.Add(Me.btnCancel)
         Me.Controls.Add(Me.btnSave)
         Me.Controls.Add(Me.lblHint)
@@ -248,7 +248,7 @@ Partial Class TeacherDialog
         Me.Controls.Add(Me.lblEmpNo)
         Me.Controls.Add(Me.lblTitle)
         Me.Font = New System.Drawing.Font("Segoe UI", 10.0!)
-        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
+        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
         Me.MaximizeBox = False
         Me.MinimizeBox = False
         Me.Name = "TeacherDialog"

@@ -1,6 +1,6 @@
 <Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class TermDialog
-    Inherits System.Windows.Forms.Form
+    Inherits Global.CSUAttendance.SheetForm
 
     'Form overrides dispose to clean up the component list.
     <System.Diagnostics.DebuggerNonUserCode()>
@@ -43,7 +43,7 @@ Partial Class TermDialog
         Me.lblTitle.AutoSize = True
         Me.lblTitle.Font = New System.Drawing.Font("Segoe UI Semibold", 15.0!)
         Me.lblTitle.ForeColor = System.Drawing.Color.FromArgb(CType(CType(31, Byte), Integer), CType(CType(35, Byte), Integer), CType(CType(40, Byte), Integer))
-        Me.lblTitle.Location = New System.Drawing.Point(28, 24)
+        Me.lblTitle.Location = New System.Drawing.Point(238, 24)
         Me.lblTitle.Name = "lblTitle"
         Me.lblTitle.Size = New System.Drawing.Size(160, 28)
         Me.lblTitle.TabIndex = 10
@@ -53,7 +53,7 @@ Partial Class TermDialog
         '
         Me.lblYear.AutoSize = True
         Me.lblYear.Font = New System.Drawing.Font("Segoe UI Semibold", 9.0!)
-        Me.lblYear.Location = New System.Drawing.Point(28, 76)
+        Me.lblYear.Location = New System.Drawing.Point(238, 76)
         Me.lblYear.Name = "lblYear"
         Me.lblYear.Size = New System.Drawing.Size(70, 15)
         Me.lblYear.TabIndex = 11
@@ -61,7 +61,7 @@ Partial Class TermDialog
         '
         'txtYear
         '
-        Me.txtYear.Location = New System.Drawing.Point(30, 96)
+        Me.txtYear.Location = New System.Drawing.Point(240, 96)
         Me.txtYear.MaxLength = 9
         Me.txtYear.Name = "txtYear"
         Me.txtYear.Placeholder = "e.g. 2026-2027"
@@ -72,7 +72,7 @@ Partial Class TermDialog
         '
         Me.lblSemester.AutoSize = True
         Me.lblSemester.Font = New System.Drawing.Font("Segoe UI Semibold", 9.0!)
-        Me.lblSemester.Location = New System.Drawing.Point(238, 76)
+        Me.lblSemester.Location = New System.Drawing.Point(448, 76)
         Me.lblSemester.Name = "lblSemester"
         Me.lblSemester.Size = New System.Drawing.Size(57, 15)
         Me.lblSemester.TabIndex = 12
@@ -83,7 +83,7 @@ Partial Class TermDialog
         Me.cboSemester.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cboSemester.FormattingEnabled = True
         Me.cboSemester.Items.AddRange(New Object() {"1st Semester", "2nd Semester", "Summer"})
-        Me.cboSemester.Location = New System.Drawing.Point(240, 101)
+        Me.cboSemester.Location = New System.Drawing.Point(450, 101)
         Me.cboSemester.Name = "cboSemester"
         Me.cboSemester.Size = New System.Drawing.Size(190, 25)
         Me.cboSemester.TabIndex = 1
@@ -92,7 +92,7 @@ Partial Class TermDialog
         '
         Me.lblStart.AutoSize = True
         Me.lblStart.Font = New System.Drawing.Font("Segoe UI Semibold", 9.0!)
-        Me.lblStart.Location = New System.Drawing.Point(28, 146)
+        Me.lblStart.Location = New System.Drawing.Point(238, 146)
         Me.lblStart.Name = "lblStart"
         Me.lblStart.Size = New System.Drawing.Size(60, 15)
         Me.lblStart.TabIndex = 13
@@ -102,7 +102,7 @@ Partial Class TermDialog
         '
         Me.dtpStart.CustomFormat = "MMM d, yyyy"
         Me.dtpStart.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.dtpStart.Location = New System.Drawing.Point(30, 168)
+        Me.dtpStart.Location = New System.Drawing.Point(240, 168)
         Me.dtpStart.Name = "dtpStart"
         Me.dtpStart.Size = New System.Drawing.Size(190, 25)
         Me.dtpStart.TabIndex = 2
@@ -111,7 +111,7 @@ Partial Class TermDialog
         '
         Me.lblEnd.AutoSize = True
         Me.lblEnd.Font = New System.Drawing.Font("Segoe UI Semibold", 9.0!)
-        Me.lblEnd.Location = New System.Drawing.Point(238, 146)
+        Me.lblEnd.Location = New System.Drawing.Point(448, 146)
         Me.lblEnd.Name = "lblEnd"
         Me.lblEnd.Size = New System.Drawing.Size(56, 15)
         Me.lblEnd.TabIndex = 14
@@ -121,14 +121,14 @@ Partial Class TermDialog
         '
         Me.dtpEnd.CustomFormat = "MMM d, yyyy"
         Me.dtpEnd.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.dtpEnd.Location = New System.Drawing.Point(240, 168)
+        Me.dtpEnd.Location = New System.Drawing.Point(450, 168)
         Me.dtpEnd.Name = "dtpEnd"
         Me.dtpEnd.Size = New System.Drawing.Size(190, 25)
         Me.dtpEnd.TabIndex = 3
         '
         'btnSave
         '
-        Me.btnSave.Location = New System.Drawing.Point(334, 232)
+        Me.btnSave.Location = New System.Drawing.Point(544, 276)
         Me.btnSave.Name = "btnSave"
         Me.btnSave.Size = New System.Drawing.Size(96, 36)
         Me.btnSave.TabIndex = 4
@@ -138,7 +138,7 @@ Partial Class TermDialog
         'btnCancel
         '
         Me.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel
-        Me.btnCancel.Location = New System.Drawing.Point(230, 232)
+        Me.btnCancel.Location = New System.Drawing.Point(440, 276)
         Me.btnCancel.Name = "btnCancel"
         Me.btnCancel.Size = New System.Drawing.Size(96, 36)
         Me.btnCancel.TabIndex = 5
@@ -157,7 +157,7 @@ Partial Class TermDialog
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi
         Me.BackColor = System.Drawing.Color.White
         Me.CancelButton = Me.btnCancel
-        Me.ClientSize = New System.Drawing.Size(460, 292)
+        Me.ClientSize = New System.Drawing.Size(670, 340)
         Me.Controls.Add(Me.btnCancel)
         Me.Controls.Add(Me.btnSave)
         Me.Controls.Add(Me.dtpEnd)
@@ -170,7 +170,7 @@ Partial Class TermDialog
         Me.Controls.Add(Me.lblYear)
         Me.Controls.Add(Me.lblTitle)
         Me.Font = New System.Drawing.Font("Segoe UI", 10.0!)
-        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
+        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
         Me.MaximizeBox = False
         Me.MinimizeBox = False
         Me.Name = "TermDialog"

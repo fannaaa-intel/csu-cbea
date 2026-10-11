@@ -1,6 +1,6 @@
 <Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class SectionDialog
-    Inherits System.Windows.Forms.Form
+    Inherits Global.CSUAttendance.SheetForm
 
     'Form overrides dispose to clean up the component list.
     <System.Diagnostics.DebuggerNonUserCode()>
@@ -42,7 +42,7 @@ Partial Class SectionDialog
         Me.lblTitle.AutoSize = True
         Me.lblTitle.Font = New System.Drawing.Font("Segoe UI Semibold", 15.0!)
         Me.lblTitle.ForeColor = System.Drawing.Color.FromArgb(CType(CType(31, Byte), Integer), CType(CType(35, Byte), Integer), CType(CType(40, Byte), Integer))
-        Me.lblTitle.Location = New System.Drawing.Point(28, 24)
+        Me.lblTitle.Location = New System.Drawing.Point(238, 24)
         Me.lblTitle.Name = "lblTitle"
         Me.lblTitle.Size = New System.Drawing.Size(122, 28)
         Me.lblTitle.TabIndex = 10
@@ -52,7 +52,7 @@ Partial Class SectionDialog
         '
         Me.lblName.AutoSize = True
         Me.lblName.Font = New System.Drawing.Font("Segoe UI Semibold", 9.0!)
-        Me.lblName.Location = New System.Drawing.Point(28, 76)
+        Me.lblName.Location = New System.Drawing.Point(238, 76)
         Me.lblName.Name = "lblName"
         Me.lblName.Size = New System.Drawing.Size(83, 15)
         Me.lblName.TabIndex = 11
@@ -60,7 +60,7 @@ Partial Class SectionDialog
         '
         'txtName
         '
-        Me.txtName.Location = New System.Drawing.Point(30, 96)
+        Me.txtName.Location = New System.Drawing.Point(240, 96)
         Me.txtName.MaxLength = 30
         Me.txtName.Name = "txtName"
         Me.txtName.Placeholder = "e.g. BSAIS 3B"
@@ -71,7 +71,7 @@ Partial Class SectionDialog
         '
         Me.lblProgram.AutoSize = True
         Me.lblProgram.Font = New System.Drawing.Font("Segoe UI Semibold", 9.0!)
-        Me.lblProgram.Location = New System.Drawing.Point(28, 146)
+        Me.lblProgram.Location = New System.Drawing.Point(238, 146)
         Me.lblProgram.Name = "lblProgram"
         Me.lblProgram.Size = New System.Drawing.Size(55, 15)
         Me.lblProgram.TabIndex = 12
@@ -79,7 +79,7 @@ Partial Class SectionDialog
         '
         'txtProgram
         '
-        Me.txtProgram.Location = New System.Drawing.Point(30, 166)
+        Me.txtProgram.Location = New System.Drawing.Point(240, 166)
         Me.txtProgram.MaxLength = 20
         Me.txtProgram.Name = "txtProgram"
         Me.txtProgram.Placeholder = "e.g. BSAIS"
@@ -90,7 +90,7 @@ Partial Class SectionDialog
         '
         Me.lblYear.AutoSize = True
         Me.lblYear.Font = New System.Drawing.Font("Segoe UI Semibold", 9.0!)
-        Me.lblYear.Location = New System.Drawing.Point(288, 146)
+        Me.lblYear.Location = New System.Drawing.Point(498, 146)
         Me.lblYear.Name = "lblYear"
         Me.lblYear.Size = New System.Drawing.Size(62, 15)
         Me.lblYear.TabIndex = 13
@@ -99,7 +99,7 @@ Partial Class SectionDialog
         'numYear
         '
         Me.numYear.Font = New System.Drawing.Font("Segoe UI", 10.5!)
-        Me.numYear.Location = New System.Drawing.Point(290, 171)
+        Me.numYear.Location = New System.Drawing.Point(500, 171)
         Me.numYear.Maximum = New Decimal(New Integer() {5, 0, 0, 0})
         Me.numYear.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
         Me.numYear.Name = "numYear"
@@ -109,7 +109,7 @@ Partial Class SectionDialog
         '
         'btnSave
         '
-        Me.btnSave.Location = New System.Drawing.Point(334, 232)
+        Me.btnSave.Location = New System.Drawing.Point(544, 276)
         Me.btnSave.Name = "btnSave"
         Me.btnSave.Size = New System.Drawing.Size(96, 36)
         Me.btnSave.TabIndex = 3
@@ -119,7 +119,7 @@ Partial Class SectionDialog
         'btnCancel
         '
         Me.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel
-        Me.btnCancel.Location = New System.Drawing.Point(230, 232)
+        Me.btnCancel.Location = New System.Drawing.Point(440, 276)
         Me.btnCancel.Name = "btnCancel"
         Me.btnCancel.Size = New System.Drawing.Size(96, 36)
         Me.btnCancel.TabIndex = 4
@@ -138,7 +138,7 @@ Partial Class SectionDialog
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi
         Me.BackColor = System.Drawing.Color.White
         Me.CancelButton = Me.btnCancel
-        Me.ClientSize = New System.Drawing.Size(460, 292)
+        Me.ClientSize = New System.Drawing.Size(670, 340)
         Me.Controls.Add(Me.btnCancel)
         Me.Controls.Add(Me.btnSave)
         Me.Controls.Add(Me.numYear)
@@ -149,7 +149,7 @@ Partial Class SectionDialog
         Me.Controls.Add(Me.lblName)
         Me.Controls.Add(Me.lblTitle)
         Me.Font = New System.Drawing.Font("Segoe UI", 10.0!)
-        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
+        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
         Me.MaximizeBox = False
         Me.MinimizeBox = False
         Me.Name = "SectionDialog"

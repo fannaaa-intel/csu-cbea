@@ -19,6 +19,7 @@ Public Class SubjectDialog
 
     Private Sub SubjectDialog_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Theme.StylePrimary(btnSave)
+        SetRail(Icons.Subjects, "Subjects", "A subject is a course in the curriculum, like AIS 311. Classes are created from subjects.")
         Theme.StyleSecondary(btnCancel)
         If _id > 0 Then
             lblTitle.Text = "Edit subject"
@@ -65,8 +66,7 @@ Public Class SubjectDialog
         Catch ex As Exception When Db.IsDuplicate(ex)
             errProvider.SetError(txtCode, $"Subject code {code} already exists.")
         Catch ex As Exception
-            MessageBox.Show(Me, "Could not save the subject." & Environment.NewLine & Environment.NewLine & ex.Message,
-                            "Something went wrong", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Notice.Fail(Me, "Could not save the subject", "Please check your connection and the details, then try again.", ex.Message)
         End Try
     End Sub
 

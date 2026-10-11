@@ -1,6 +1,6 @@
 <Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class ChangePasswordForm
-    Inherits System.Windows.Forms.Form
+    Inherits Global.CSUAttendance.SheetForm
 
     'Form overrides dispose to clean up the component list.
     <System.Diagnostics.DebuggerNonUserCode()>
@@ -40,7 +40,7 @@ Partial Class ChangePasswordForm
         Me.lblTitle.AutoSize = True
         Me.lblTitle.Font = New System.Drawing.Font("Segoe UI Semibold", 15.0!)
         Me.lblTitle.ForeColor = System.Drawing.Color.FromArgb(CType(CType(31, Byte), Integer), CType(CType(35, Byte), Integer), CType(CType(40, Byte), Integer))
-        Me.lblTitle.Location = New System.Drawing.Point(28, 24)
+        Me.lblTitle.Location = New System.Drawing.Point(238, 24)
         Me.lblTitle.Name = "lblTitle"
         Me.lblTitle.Size = New System.Drawing.Size(168, 28)
         Me.lblTitle.TabIndex = 0
@@ -50,7 +50,7 @@ Partial Class ChangePasswordForm
         '
         Me.lblSub.Font = New System.Drawing.Font("Segoe UI", 9.0!)
         Me.lblSub.ForeColor = System.Drawing.Color.FromArgb(CType(CType(107, Byte), Integer), CType(CType(114, Byte), Integer), CType(CType(128, Byte), Integer))
-        Me.lblSub.Location = New System.Drawing.Point(30, 56)
+        Me.lblSub.Location = New System.Drawing.Point(240, 56)
         Me.lblSub.Name = "lblSub"
         Me.lblSub.Size = New System.Drawing.Size(360, 36)
         Me.lblSub.TabIndex = 1
@@ -60,7 +60,7 @@ Partial Class ChangePasswordForm
         '
         Me.lblCurrent.AutoSize = True
         Me.lblCurrent.Font = New System.Drawing.Font("Segoe UI Semibold", 9.0!)
-        Me.lblCurrent.Location = New System.Drawing.Point(28, 100)
+        Me.lblCurrent.Location = New System.Drawing.Point(238, 100)
         Me.lblCurrent.Name = "lblCurrent"
         Me.lblCurrent.Size = New System.Drawing.Size(101, 15)
         Me.lblCurrent.TabIndex = 2
@@ -68,7 +68,7 @@ Partial Class ChangePasswordForm
         '
         'txtCurrent
         '
-        Me.txtCurrent.Location = New System.Drawing.Point(30, 120)
+        Me.txtCurrent.Location = New System.Drawing.Point(240, 120)
         Me.txtCurrent.Name = "txtCurrent"
         Me.txtCurrent.Size = New System.Drawing.Size(360, 38)
         Me.txtCurrent.TabIndex = 0
@@ -78,7 +78,7 @@ Partial Class ChangePasswordForm
         '
         Me.lblNew.AutoSize = True
         Me.lblNew.Font = New System.Drawing.Font("Segoe UI Semibold", 9.0!)
-        Me.lblNew.Location = New System.Drawing.Point(28, 170)
+        Me.lblNew.Location = New System.Drawing.Point(238, 170)
         Me.lblNew.Name = "lblNew"
         Me.lblNew.Size = New System.Drawing.Size(85, 15)
         Me.lblNew.TabIndex = 4
@@ -86,7 +86,7 @@ Partial Class ChangePasswordForm
         '
         'txtNew
         '
-        Me.txtNew.Location = New System.Drawing.Point(30, 190)
+        Me.txtNew.Location = New System.Drawing.Point(240, 190)
         Me.txtNew.Name = "txtNew"
         Me.txtNew.Size = New System.Drawing.Size(360, 38)
         Me.txtNew.TabIndex = 1
@@ -96,7 +96,7 @@ Partial Class ChangePasswordForm
         '
         Me.lblConfirm.AutoSize = True
         Me.lblConfirm.Font = New System.Drawing.Font("Segoe UI Semibold", 9.0!)
-        Me.lblConfirm.Location = New System.Drawing.Point(28, 240)
+        Me.lblConfirm.Location = New System.Drawing.Point(238, 240)
         Me.lblConfirm.Name = "lblConfirm"
         Me.lblConfirm.Size = New System.Drawing.Size(130, 15)
         Me.lblConfirm.TabIndex = 6
@@ -104,7 +104,7 @@ Partial Class ChangePasswordForm
         '
         'txtConfirm
         '
-        Me.txtConfirm.Location = New System.Drawing.Point(30, 260)
+        Me.txtConfirm.Location = New System.Drawing.Point(240, 260)
         Me.txtConfirm.Name = "txtConfirm"
         Me.txtConfirm.Size = New System.Drawing.Size(360, 38)
         Me.txtConfirm.TabIndex = 2
@@ -114,14 +114,14 @@ Partial Class ChangePasswordForm
         '
         Me.lblError.Font = New System.Drawing.Font("Segoe UI", 9.0!)
         Me.lblError.ForeColor = System.Drawing.Color.FromArgb(CType(CType(220, Byte), Integer), CType(CType(38, Byte), Integer), CType(CType(38, Byte), Integer))
-        Me.lblError.Location = New System.Drawing.Point(30, 306)
+        Me.lblError.Location = New System.Drawing.Point(240, 306)
         Me.lblError.Name = "lblError"
         Me.lblError.Size = New System.Drawing.Size(360, 24)
         Me.lblError.TabIndex = 8
         '
         'btnSave
         '
-        Me.btnSave.Location = New System.Drawing.Point(254, 340)
+        Me.btnSave.Location = New System.Drawing.Point(464, 336)
         Me.btnSave.Name = "btnSave"
         Me.btnSave.Size = New System.Drawing.Size(136, 36)
         Me.btnSave.TabIndex = 3
@@ -131,7 +131,7 @@ Partial Class ChangePasswordForm
         'btnCancel
         '
         Me.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel
-        Me.btnCancel.Location = New System.Drawing.Point(150, 340)
+        Me.btnCancel.Location = New System.Drawing.Point(360, 336)
         Me.btnCancel.Name = "btnCancel"
         Me.btnCancel.Size = New System.Drawing.Size(96, 36)
         Me.btnCancel.TabIndex = 4
@@ -145,7 +145,7 @@ Partial Class ChangePasswordForm
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi
         Me.BackColor = System.Drawing.Color.White
         Me.CancelButton = Me.btnCancel
-        Me.ClientSize = New System.Drawing.Size(420, 400)
+        Me.ClientSize = New System.Drawing.Size(630, 400)
         Me.Controls.Add(Me.btnCancel)
         Me.Controls.Add(Me.btnSave)
         Me.Controls.Add(Me.lblError)
@@ -158,7 +158,7 @@ Partial Class ChangePasswordForm
         Me.Controls.Add(Me.lblSub)
         Me.Controls.Add(Me.lblTitle)
         Me.Font = New System.Drawing.Font("Segoe UI", 10.0!)
-        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
+        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
         Me.MaximizeBox = False
         Me.MinimizeBox = False
         Me.Name = "ChangePasswordForm"

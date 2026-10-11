@@ -138,19 +138,17 @@ Public Class TermsPage
         If id = 0 Then Return
         Dim label = SelectedLabel()
         If SelectedIsActive() Then
-            MessageBox.Show(FindForm(), $"{label} is the active term. Set another term as active before deleting it.",
-                            "Active term", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Notice.Info(Me, "Active term", $"{label} is the active term. Set another term as active before deleting it.")
             Return
         End If
-        If Not Confirm($"Delete term {label}? This cannot be undone.", "Delete term") Then Return
+        If Not Confirm($"Delete term {label}? This cannot be undone.", "Delete term", "Delete", True) Then Return
         Try
             Db.Execute("DELETE FROM school_terms WHERE term_id = @id", Db.P("@id", id))
             Audit.Log("DELETE", "Term", id, label)
             LoadData()
             ShowToast("Term deleted")
         Catch ex As Exception When Db.IsInUse(ex)
-            MessageBox.Show(FindForm(), $"{label} has classes and cannot be deleted.",
-                            "Term in use", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Notice.Info(Me, "Term in use", $"{label} has classes and cannot be deleted.")
         Catch ex As Exception
             ShowError(ex, "delete the term")
         End Try

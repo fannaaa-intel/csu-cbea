@@ -16,7 +16,7 @@ Public Class SimpleBarChart
                  ControlStyles.ResizeRedraw Or ControlStyles.UserPaint, True)
         BackColor = Theme.Surface
         Font = Theme.FontSmall
-        Size = New Size(400, 220)
+        Size = New Size(Theme.Dpi(400), Theme.Dpi(220))
     End Sub
 
     Public Sub SetData(labels As IEnumerable(Of String), values As IEnumerable(Of Decimal))
@@ -35,11 +35,11 @@ Public Class SimpleBarChart
             Return
         End If
 
-        Const top = 20, bottom = 28
+        Dim top = Theme.Dpi(24), bottom = Theme.Dpi(30)
         Dim plotH = Height - top - bottom
         Dim maxV = Math.Max(1D, _values.Max())
         Dim slot = CSng(Width) / _values.Count
-        Dim barW = Math.Min(48.0F, slot * 0.55F)
+        Dim barW = Math.Min(Theme.Dpi(44), slot * 0.5F)
 
         Using baseline As New Pen(Theme.Border)
             g.DrawLine(baseline, 0, top + plotH, Width, top + plotH)
@@ -49,14 +49,14 @@ Public Class SimpleBarChart
             Dim h = CSng(_values(i) / maxV) * plotH
             Dim x = slot * i + (slot - barW) / 2
             Dim rect As New RectangleF(x, top + plotH - h, barW, Math.Max(h, 1))
-            Using path = Theme.RoundedRect(Rectangle.Round(rect), 4), br As New SolidBrush(BarColor)
+            Using path = Theme.RoundedRect(Rectangle.Round(rect), Theme.Dpi(5)), br As New SolidBrush(BarColor)
                 g.FillPath(br, path)
             End Using
             TextRenderer.DrawText(g, _values(i).ToString(ValueFormat), Font,
-                                  New Rectangle(CInt(slot * i), CInt(top + plotH - h - 18), CInt(slot), 16), Theme.TextPrimary,
+                                  New Rectangle(CInt(slot * i), CInt(top + plotH - h - Theme.Dpi(20)), CInt(slot), Theme.Dpi(18)), Theme.TextPrimary,
                                   TextFormatFlags.HorizontalCenter)
             TextRenderer.DrawText(g, If(i < _labels.Count, _labels(i), ""), Font,
-                                  New Rectangle(CInt(slot * i), top + plotH + 6, CInt(slot), 18), Theme.TextMuted,
+                                  New Rectangle(CInt(slot * i), top + plotH + Theme.Dpi(6), CInt(slot), Theme.Dpi(22)), Theme.TextMuted,
                                   TextFormatFlags.HorizontalCenter Or TextFormatFlags.EndEllipsis)
         Next
     End Sub

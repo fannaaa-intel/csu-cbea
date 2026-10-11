@@ -23,6 +23,7 @@ Public Class StudentDialog
 
     Private Sub StudentDialog_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Theme.StylePrimary(btnSave)
+        SetRail(Icons.Students, "Student", "Adding a student also creates their login account. The student no. is their username.")
         Theme.StyleSecondary(btnCancel)
         Theme.StyleCombo(cboStatus)
         Theme.StyleCombo(cboSex)
@@ -107,11 +108,10 @@ Public Class StudentDialog
         Try
             If _id = 0 Then
                 AddStudent(studentNo, fullName)
-                MessageBox.Show(Me, $"Account created for {fullName}." & Environment.NewLine & Environment.NewLine &
+                Notice.Success(Me, "Student account created", $"Account created for {fullName}." & Environment.NewLine & Environment.NewLine &
                                     $"Username:  {studentNo}" & Environment.NewLine &
                                     $"Password:  {studentNo}" & Environment.NewLine & Environment.NewLine &
-                                    "Give this to the student; they must change it at first login.",
-                                "Student account", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                                    "Give this to the student; they must change it at first login.")
             Else
                 UpdateStudent(studentNo, fullName)
             End If
@@ -119,8 +119,7 @@ Public Class StudentDialog
         Catch ex As Exception When Db.IsDuplicate(ex)
             errProvider.SetError(txtStudentNo, $"Student no. {studentNo} already exists.")
         Catch ex As Exception
-            MessageBox.Show(Me, "Could not save the student." & Environment.NewLine & Environment.NewLine & ex.Message,
-                            "Something went wrong", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Notice.Fail(Me, "Could not save the student", "Please check your connection and the details, then try again.", ex.Message)
         End Try
     End Sub
 

@@ -14,7 +14,7 @@ Public Class CardPanel
     Public Sub New()
         SetStyle(ControlStyles.AllPaintingInWmPaint Or ControlStyles.OptimizedDoubleBuffer Or
                  ControlStyles.ResizeRedraw Or ControlStyles.UserPaint, True)
-        Padding = New Padding(16)
+        Padding = New Padding(Theme.Dpi(16))
         MyBase.BackColor = Theme.Surface
     End Sub
 
@@ -59,7 +59,7 @@ Public Class CardPanel
         e.Graphics.Clear(parentColor)
         e.Graphics.SmoothingMode = SmoothingMode.AntiAlias
         Dim r As New Rectangle(0, 0, Width - 1, Height - 1)
-        Using path = Theme.RoundedRect(r, _radius), br As New SolidBrush(_cardColor), pen As New Pen(_borderColor)
+        Using path = Theme.RoundedRect(r, Theme.Dpi(_radius)), br As New SolidBrush(_cardColor), pen As New Pen(_borderColor)
             e.Graphics.FillPath(br, path)
             e.Graphics.DrawPath(pen, path)
         End Using

@@ -1,6 +1,6 @@
 <Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class SubjectDialog
-    Inherits System.Windows.Forms.Form
+    Inherits Global.CSUAttendance.SheetForm
 
     'Form overrides dispose to clean up the component list.
     <System.Diagnostics.DebuggerNonUserCode()>
@@ -42,7 +42,7 @@ Partial Class SubjectDialog
         Me.lblTitle.AutoSize = True
         Me.lblTitle.Font = New System.Drawing.Font("Segoe UI Semibold", 15.0!)
         Me.lblTitle.ForeColor = System.Drawing.Color.FromArgb(CType(CType(31, Byte), Integer), CType(CType(35, Byte), Integer), CType(CType(40, Byte), Integer))
-        Me.lblTitle.Location = New System.Drawing.Point(28, 24)
+        Me.lblTitle.Location = New System.Drawing.Point(238, 24)
         Me.lblTitle.Name = "lblTitle"
         Me.lblTitle.Size = New System.Drawing.Size(126, 28)
         Me.lblTitle.TabIndex = 0
@@ -52,7 +52,7 @@ Partial Class SubjectDialog
         '
         Me.lblCode.AutoSize = True
         Me.lblCode.Font = New System.Drawing.Font("Segoe UI Semibold", 9.0!)
-        Me.lblCode.Location = New System.Drawing.Point(28, 76)
+        Me.lblCode.Location = New System.Drawing.Point(238, 76)
         Me.lblCode.Name = "lblCode"
         Me.lblCode.Size = New System.Drawing.Size(79, 15)
         Me.lblCode.TabIndex = 1
@@ -60,7 +60,7 @@ Partial Class SubjectDialog
         '
         'txtCode
         '
-        Me.txtCode.Location = New System.Drawing.Point(30, 96)
+        Me.txtCode.Location = New System.Drawing.Point(240, 96)
         Me.txtCode.MaxLength = 20
         Me.txtCode.Name = "txtCode"
         Me.txtCode.Placeholder = "e.g. AIS 311"
@@ -71,7 +71,7 @@ Partial Class SubjectDialog
         '
         Me.lblDescription.AutoSize = True
         Me.lblDescription.Font = New System.Drawing.Font("Segoe UI Semibold", 9.0!)
-        Me.lblDescription.Location = New System.Drawing.Point(28, 146)
+        Me.lblDescription.Location = New System.Drawing.Point(238, 146)
         Me.lblDescription.Name = "lblDescription"
         Me.lblDescription.Size = New System.Drawing.Size(69, 15)
         Me.lblDescription.TabIndex = 3
@@ -79,7 +79,7 @@ Partial Class SubjectDialog
         '
         'txtDescription
         '
-        Me.txtDescription.Location = New System.Drawing.Point(30, 166)
+        Me.txtDescription.Location = New System.Drawing.Point(240, 166)
         Me.txtDescription.MaxLength = 150
         Me.txtDescription.Name = "txtDescription"
         Me.txtDescription.Placeholder = "e.g. Accounting Information Systems"
@@ -90,7 +90,7 @@ Partial Class SubjectDialog
         '
         Me.lblUnits.AutoSize = True
         Me.lblUnits.Font = New System.Drawing.Font("Segoe UI Semibold", 9.0!)
-        Me.lblUnits.Location = New System.Drawing.Point(28, 216)
+        Me.lblUnits.Location = New System.Drawing.Point(238, 216)
         Me.lblUnits.Name = "lblUnits"
         Me.lblUnits.Size = New System.Drawing.Size(34, 15)
         Me.lblUnits.TabIndex = 5
@@ -101,7 +101,7 @@ Partial Class SubjectDialog
         Me.numUnits.DecimalPlaces = 1
         Me.numUnits.Font = New System.Drawing.Font("Segoe UI", 10.5!)
         Me.numUnits.Increment = New Decimal(New Integer() {5, 0, 0, 65536})
-        Me.numUnits.Location = New System.Drawing.Point(30, 236)
+        Me.numUnits.Location = New System.Drawing.Point(240, 236)
         Me.numUnits.Maximum = New Decimal(New Integer() {10, 0, 0, 0})
         Me.numUnits.Minimum = New Decimal(New Integer() {5, 0, 0, 65536})
         Me.numUnits.Name = "numUnits"
@@ -111,7 +111,7 @@ Partial Class SubjectDialog
         '
         'btnSave
         '
-        Me.btnSave.Location = New System.Drawing.Point(334, 296)
+        Me.btnSave.Location = New System.Drawing.Point(544, 292)
         Me.btnSave.Name = "btnSave"
         Me.btnSave.Size = New System.Drawing.Size(96, 36)
         Me.btnSave.TabIndex = 3
@@ -121,7 +121,7 @@ Partial Class SubjectDialog
         'btnCancel
         '
         Me.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel
-        Me.btnCancel.Location = New System.Drawing.Point(230, 296)
+        Me.btnCancel.Location = New System.Drawing.Point(440, 292)
         Me.btnCancel.Name = "btnCancel"
         Me.btnCancel.Size = New System.Drawing.Size(96, 36)
         Me.btnCancel.TabIndex = 4
@@ -140,7 +140,7 @@ Partial Class SubjectDialog
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi
         Me.BackColor = System.Drawing.Color.White
         Me.CancelButton = Me.btnCancel
-        Me.ClientSize = New System.Drawing.Size(460, 356)
+        Me.ClientSize = New System.Drawing.Size(670, 356)
         Me.Controls.Add(Me.btnCancel)
         Me.Controls.Add(Me.btnSave)
         Me.Controls.Add(Me.numUnits)
@@ -151,7 +151,7 @@ Partial Class SubjectDialog
         Me.Controls.Add(Me.lblCode)
         Me.Controls.Add(Me.lblTitle)
         Me.Font = New System.Drawing.Font("Segoe UI", 10.0!)
-        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
+        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
         Me.MaximizeBox = False
         Me.MinimizeBox = False
         Me.Name = "SubjectDialog"

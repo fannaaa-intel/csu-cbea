@@ -20,6 +20,7 @@ Public Class TeacherDialog
 
     Private Sub TeacherDialog_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Theme.StylePrimary(btnSave)
+        SetRail(Icons.Teachers, "Teacher", "Adding a teacher also creates their login account. They sign in with their username and set their own password.")
         Theme.StyleSecondary(btnCancel)
         If _id = 0 Then Return
 
@@ -94,11 +95,10 @@ Public Class TeacherDialog
         Try
             If _id = 0 Then
                 AddTeacher(empNo, username, fullName)
-                MessageBox.Show(Me, $"Account created for {fullName}." & Environment.NewLine & Environment.NewLine &
+                Notice.Success(Me, "Teacher account created", $"Account created for {fullName}." & Environment.NewLine & Environment.NewLine &
                                     $"Username:  {username}" & Environment.NewLine &
                                     $"Password:  {empNo}" & Environment.NewLine & Environment.NewLine &
-                                    "Give this to the teacher; they must change it at first login.",
-                                "Teacher account", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                                    "Give this to the teacher; they must change it at first login.")
             Else
                 UpdateTeacher(empNo, username, fullName)
             End If
@@ -106,8 +106,7 @@ Public Class TeacherDialog
         Catch ex As Exception When Db.IsDuplicate(ex)
             errProvider.SetError(txtEmpNo, "Employee no. or username already exists.")
         Catch ex As Exception
-            MessageBox.Show(Me, "Could not save the teacher." & Environment.NewLine & Environment.NewLine & ex.Message,
-                            "Something went wrong", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Notice.Fail(Me, "Could not save the teacher", "Please check your connection and the details, then try again.", ex.Message)
         End Try
     End Sub
 

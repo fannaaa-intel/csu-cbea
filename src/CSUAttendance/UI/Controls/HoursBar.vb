@@ -18,7 +18,7 @@ Public Class HoursBar
     Public Sub New()
         SetStyle(ControlStyles.AllPaintingInWmPaint Or ControlStyles.OptimizedDoubleBuffer Or
                  ControlStyles.ResizeRedraw Or ControlStyles.UserPaint, True)
-        Size = New Size(240, 10)
+        Size = New Size(Theme.Dpi(240), Theme.Dpi(10))
         BackColor = Theme.Surface
     End Sub
 

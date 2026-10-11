@@ -28,8 +28,7 @@ Public Module Program
 
     ''' <summary>Last-resort handler so the app shows a message instead of crashing during a demo.</summary>
     Private Sub OnUnhandledException(sender As Object, e As System.Threading.ThreadExceptionEventArgs)
-        MessageBox.Show("An unexpected error occurred:" & Environment.NewLine & Environment.NewLine & e.Exception.Message,
-                        "CSU Attendance", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        Notice.Fail(Nothing, "Unexpected error", "The action could not be completed. Your saved data is safe.", e.Exception.Message)
     End Sub
 
 End Module

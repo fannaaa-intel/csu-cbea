@@ -15,11 +15,13 @@ Public Class ChangePasswordForm
     Public Sub New(forced As Boolean)
         InitializeComponent()
         _forced = forced
+        ShowCloseButton = Not forced
     End Sub
 
     Private Sub ChangePasswordForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Theme.StylePrimary(btnSave)
         Theme.StyleSecondary(btnCancel)
+        SetRail(Icons.Key, "Your password", "Passwords are stored as salted PBKDF2 hashes - nobody, not even the administrator, can read them.")
         If _forced Then
             lblTitle.Text = "Set a new password"
             lblSub.Text = "For your security, please replace your temporary password. Use at least 8 characters with letters and numbers."

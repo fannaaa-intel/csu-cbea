@@ -14,6 +14,7 @@ Public Class TeachersPage
         Theme.StyleSecondary(btnEdit, Icons.Edit)
         Theme.StyleDanger(btnDelete, Icons.Delete)
         Theme.StyleGrid(dgv)
+        If TypeOf NavigationArg Is String Then txtSearch.Text = CStr(NavigationArg)   ' opened from User Accounts
         LoadData()
     End Sub
 
@@ -111,15 +112,14 @@ Public Class TeachersPage
         If id = 0 Then Return
         Dim name = Db.ToStr(dgv.CurrentRow.Cells("teacher_name").Value)
         Dim userId = Db.ToInt(dgv.CurrentRow.Cells("user_id").Value)
-        If Not Confirm($"Delete teacher {name} and their login account? This cannot be undone.", "Delete teacher") Then Return
+        If Not Confirm($"Delete teacher {name} and their login account? This cannot be undone.", "Delete teacher", "Delete", True) Then Return
         Try
             Db.Execute("DELETE FROM users WHERE user_id = @u", Db.P("@u", userId))
             Audit.Log("DELETE", "Teacher", id, name)
             LoadData()
             ShowToast("Teacher deleted")
         Catch ex As Exception When Db.IsInUse(ex)
-            MessageBox.Show(FindForm(), $"{name} is assigned to one or more classes and cannot be deleted.",
-                            "Teacher in use", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Notice.Info(Me, "Teacher in use", $"{name} is assigned to one or more classes and cannot be deleted.")
         Catch ex As Exception
             ShowError(ex, "delete the teacher")
         End Try
