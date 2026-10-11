@@ -118,6 +118,8 @@ Public Class ReportsPage
 
     Private ReadOnly Property ReportIndex As Integer
         Get
+            ' SelectedRows is already updated inside SelectionChanged; CurrentRow can still point at the old report
+            If picker.SelectedRows.Count > 0 Then Return picker.SelectedRows(0).Index
             Return If(picker.CurrentRow Is Nothing, 0, picker.CurrentRow.Index)
         End Get
     End Property
