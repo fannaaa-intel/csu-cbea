@@ -121,8 +121,7 @@ Public Class TextField
     End Sub
 
     Protected Overrides Sub OnPaint(e As PaintEventArgs)
-        Dim parentColor = If(Parent IsNot Nothing, Parent.BackColor, Theme.Surface)
-        e.Graphics.Clear(parentColor)
+        e.Graphics.Clear(If(Parent IsNot Nothing, Theme.BackOf(Parent), Theme.Surface))   ' skip Transparent parents (they paint black)
         e.Graphics.SmoothingMode = SmoothingMode.AntiAlias
         Dim r As New Rectangle(0, 0, Width - 1, Height - 1)
         Using path = Theme.RoundedRect(r, Theme.Dpi(6)), br As New SolidBrush(_box.BackColor),

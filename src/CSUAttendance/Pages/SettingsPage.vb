@@ -33,7 +33,7 @@ Public Class SettingsPage
     Public Sub New()
         For i = 0 To 2
             board.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 33.33F))
-            board.RowStyles.Add(New RowStyle(SizeType.Percent, 33.33F))
+            board.RowStyles.Add(New RowStyle(SizeType.Absolute, Theme.Dpi(196)))   ' cards sized to their content
         Next
         For i = 0 To Rules.Length - 1
             board.Controls.Add(RuleCard(i), i Mod 3, i \ 3)
@@ -68,12 +68,12 @@ Public Class SettingsPage
         Dim unit = Ui.Muted(rule.Unit)
         unit.Location = New Point(num.Right + Theme.Dpi(10), num.Top + Theme.Dpi(8))
         Dim desc As New Label With {.Name = "desc", .Font = Theme.FontSmall, .ForeColor = Theme.TextPrimary, .AutoSize = False, .BackColor = Theme.Surface,
-                                    .Location = New Point(c.Padding.Left, num.Bottom + Theme.Dpi(10)), .Height = Theme.Dpi(36),
+                                    .Location = New Point(c.Padding.Left, num.Bottom + Theme.Dpi(12)), .Height = Theme.Dpi(40),
                                     .Anchor = AnchorStyles.Left Or AnchorStyles.Top Or AnchorStyles.Right}
         Dim basis = Ui.Muted(rule.Basis)
         basis.AutoSize = False
         basis.Anchor = AnchorStyles.Left Or AnchorStyles.Top Or AnchorStyles.Right
-        basis.Location = New Point(c.Padding.Left, desc.Bottom + Theme.Dpi(4))
+        basis.Location = New Point(c.Padding.Left, desc.Bottom + Theme.Dpi(6))
         basis.Height = Theme.Dpi(20)
         AddHandler c.Layout, Sub()
                                  desc.Width = c.ClientSize.Width - c.Padding.Horizontal

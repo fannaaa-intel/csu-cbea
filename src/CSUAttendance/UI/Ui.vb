@@ -60,7 +60,7 @@ Public Module Ui
 
     Public Function Combo(width As Integer) As ComboBox
         Dim c As New ComboBox With {.DropDownStyle = ComboBoxStyle.DropDownList, .Width = Theme.Dpi(width),
-                                    .Margin = New Padding(0, Theme.Dpi(5), Theme.Dpi(12), 0)}
+                                    .Margin = New Padding(0, 0, Theme.Dpi(12), 0)}
         Theme.StyleCombo(c)
         Return c
     End Function
@@ -70,9 +70,9 @@ Public Module Ui
                                    .Margin = New Padding(0, 0, Theme.Dpi(12), 0)}
     End Function
 
-    Public Function DatePicker(width As Integer) As DateTimePicker
-        Return New DateTimePicker With {.Format = DateTimePickerFormat.Custom, .CustomFormat = "MMM d, yyyy", .Width = Theme.Dpi(width),
-                                        .Font = Theme.FontBase, .Margin = New Padding(0, Theme.Dpi(5), Theme.Dpi(12), 0)}
+    Public Function DatePicker(width As Integer) As DateField
+        Return New DateField With {.Width = Theme.Dpi(width),
+                                        .Font = Theme.FontBase, .Margin = New Padding(0, 0, Theme.Dpi(12), 0)}
     End Function
 
     ''' <summary>A styled button. kind: primary | secondary | danger | ghost.</summary>

@@ -55,6 +55,7 @@ Public Class StudentHistoryDialog
         Dim grid = Ui.Grid()
         grid.Dock = DockStyle.None
         grid.SetBounds(left, Theme.Dpi(196), w, ClientSize.Height - Theme.Dpi(196) - Theme.Dpi(80))
+        Controls.Add(grid)                   ' columns are only generated once the grid is on the form
         grid.DataSource = Db.Query(
             "SELECT s.session_date, DATE_FORMAT(s.session_date, '%a') AS day_name, ar.status, ar.time_in, ar.hours_absent, " &
             "       CONCAT_WS(' · ', NULLIF(ar.remarks, ''), NULLIF(CONCAT(ar.excuse_requirement, IF(ar.excuse_status IS NULL, '', CONCAT(' (', ar.excuse_status, ')'))), '')) AS notes " &
@@ -80,7 +81,7 @@ Public Class StudentHistoryDialog
         btnClose.DialogResult = DialogResult.Cancel
         CancelButton = btnClose
 
-        Controls.AddRange({title, subtitle, badge, bar, barText, chips, grid, btnClose})
+        Controls.AddRange({title, subtitle, badge, bar, barText, chips, btnClose})
     End Sub
 
 End Class

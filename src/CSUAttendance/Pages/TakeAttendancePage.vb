@@ -26,7 +26,7 @@ Public Class TakeAttendancePage
     Private Shared ReadOnly Letters As String() = {"P", "L", "A", "E"}
 
     Private ReadOnly cboClass As ComboBox = Ui.Combo(360)
-    Private ReadOnly dtpDate As DateTimePicker = Ui.DatePicker(170)
+    Private ReadOnly dtpDate As DateField = Ui.DatePicker(170)
     Private ReadOnly btnAllPresent As Button = Ui.Action("Mark all present", "secondary", Icons.CheckList, 150)
     Private ReadOnly btnSave As Button = Ui.Action("Save attendance", "primary", Icons.Save, 160)
     Private ReadOnly banner As New Banner()

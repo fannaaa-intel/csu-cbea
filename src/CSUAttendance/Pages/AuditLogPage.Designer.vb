@@ -24,8 +24,8 @@ Partial Class AuditLogPage
     Private Sub InitializeComponent()
         Me.pnlToolbar = New System.Windows.Forms.Panel()
         Me.txtSearch = New Global.CSUAttendance.TextField()
-        Me.dtpFrom = New System.Windows.Forms.DateTimePicker()
-        Me.dtpTo = New System.Windows.Forms.DateTimePicker()
+        Me.dtpFrom = New CSUAttendance.DateField()
+        Me.dtpTo = New CSUAttendance.DateField()
         Me.cboAction = New System.Windows.Forms.ComboBox()
         Me.lblCount = New System.Windows.Forms.Label()
         Me.cardList = New Global.CSUAttendance.CardPanel()
@@ -61,25 +61,25 @@ Partial Class AuditLogPage
         '
         Me.dtpFrom.CustomFormat = "MMM d, yyyy"
         Me.dtpFrom.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.dtpFrom.Location = New System.Drawing.Point(232, 5)
+        Me.dtpFrom.Location = New System.Drawing.Point(232, 0)
         Me.dtpFrom.Name = "dtpFrom"
-        Me.dtpFrom.Size = New System.Drawing.Size(130, 25)
+        Me.dtpFrom.Size = New System.Drawing.Size(130, 36)
         Me.dtpFrom.TabIndex = 1
         '
         'dtpTo
         '
         Me.dtpTo.CustomFormat = "MMM d, yyyy"
         Me.dtpTo.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.dtpTo.Location = New System.Drawing.Point(374, 5)
+        Me.dtpTo.Location = New System.Drawing.Point(374, 0)
         Me.dtpTo.Name = "dtpTo"
-        Me.dtpTo.Size = New System.Drawing.Size(130, 25)
+        Me.dtpTo.Size = New System.Drawing.Size(130, 36)
         Me.dtpTo.TabIndex = 2
         '
         'cboAction
         '
         Me.cboAction.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cboAction.FormattingEnabled = True
-        Me.cboAction.Location = New System.Drawing.Point(516, 5)
+        Me.cboAction.Location = New System.Drawing.Point(516, 0)
         Me.cboAction.Name = "cboAction"
         Me.cboAction.Size = New System.Drawing.Size(150, 25)
         Me.cboAction.TabIndex = 3
@@ -146,8 +146,8 @@ Partial Class AuditLogPage
 
     Friend WithEvents pnlToolbar As System.Windows.Forms.Panel
     Friend WithEvents txtSearch As Global.CSUAttendance.TextField
-    Friend WithEvents dtpFrom As System.Windows.Forms.DateTimePicker
-    Friend WithEvents dtpTo As System.Windows.Forms.DateTimePicker
+    Friend WithEvents dtpFrom As CSUAttendance.DateField
+    Friend WithEvents dtpTo As CSUAttendance.DateField
     Friend WithEvents cboAction As System.Windows.Forms.ComboBox
     Friend WithEvents lblCount As System.Windows.Forms.Label
     Friend WithEvents cardList As Global.CSUAttendance.CardPanel

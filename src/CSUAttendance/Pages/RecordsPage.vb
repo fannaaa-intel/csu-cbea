@@ -9,8 +9,8 @@ Public Class RecordsPage
     Inherits PageBase
 
     Private ReadOnly cboClass As ComboBox = Ui.Combo(330)
-    Private ReadOnly dtpFrom As DateTimePicker = Ui.DatePicker(150)
-    Private ReadOnly dtpTo As DateTimePicker = Ui.DatePicker(150)
+    Private ReadOnly dtpFrom As DateField = Ui.DatePicker(150)
+    Private ReadOnly dtpTo As DateField = Ui.DatePicker(150)
     Private ReadOnly lblTo As Label = Ui.Muted("to")
     Private ReadOnly tabs As New TabStrip()
     Private ReadOnly btnOpen As Button = Ui.Action("Open session", "primary", Icons.View, 130)

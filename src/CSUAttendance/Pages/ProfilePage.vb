@@ -39,7 +39,9 @@ Public Class ProfilePage
         avatar.Region = New Region(Theme.RoundedRect(New Rectangle(0, 0, avatar.Width, avatar.Height), avatar.Width \ 2))
         Dim name = Ui.Caption(TextUtil.FullName(Db.ToStr(r("first_name")), Db.ToStr(r("middle_name")), Db.ToStr(r("last_name"))), Theme.FontHeading)
         name.Location = New Point(pad + Theme.Dpi(80), pad + Theme.Dpi(6))
-        Dim sub1 = Ui.Muted($"{r("student_no")}  ·  {r("program")} {r("year_level")}  ·  {r("section_name")}")
+        Dim yr = Db.ToInt(r("year_level"))
+        Dim yearText = $"{yr}{If(yr = 1, "st", If(yr = 2, "nd", If(yr = 3, "rd", "th")))} year"
+        Dim sub1 = Ui.Muted($"{r("student_no")}  ·  {r("section_name")}  ·  {yearText}")
         sub1.Font = Theme.FontBase
         sub1.Location = New Point(pad + Theme.Dpi(82), pad + Theme.Dpi(38))
         Dim badge As New StatusBadge With {.Text = Db.ToStr(r("status"))}

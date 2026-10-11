@@ -96,7 +96,7 @@ Partial Class StudentDialog
         Me.cboStatus.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cboStatus.FormattingEnabled = True
         Me.cboStatus.Items.AddRange(New Object() {"Active", "Inactive"})
-        Me.cboStatus.Location = New System.Drawing.Point(550, 101)
+        Me.cboStatus.Location = New System.Drawing.Point(550, 96)
         Me.cboStatus.Name = "cboStatus"
         Me.cboStatus.Size = New System.Drawing.Size(150, 25)
         Me.cboStatus.TabIndex = 1
@@ -171,7 +171,7 @@ Partial Class StudentDialog
         Me.cboSex.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cboSex.FormattingEnabled = True
         Me.cboSex.Items.AddRange(New Object() {"Male", "Female"})
-        Me.cboSex.Location = New System.Drawing.Point(240, 241)
+        Me.cboSex.Location = New System.Drawing.Point(240, 236)
         Me.cboSex.Name = "cboSex"
         Me.cboSex.Size = New System.Drawing.Size(150, 25)
         Me.cboSex.TabIndex = 5
@@ -190,7 +190,7 @@ Partial Class StudentDialog
         '
         Me.cboSection.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cboSection.FormattingEnabled = True
-        Me.cboSection.Location = New System.Drawing.Point(400, 241)
+        Me.cboSection.Location = New System.Drawing.Point(400, 236)
         Me.cboSection.Name = "cboSection"
         Me.cboSection.Size = New System.Drawing.Size(300, 25)
         Me.cboSection.TabIndex = 6

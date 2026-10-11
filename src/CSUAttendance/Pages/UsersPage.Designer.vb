@@ -63,7 +63,7 @@ Partial Class UsersPage
         '
         Me.cboRole.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cboRole.FormattingEnabled = True
-        Me.cboRole.Location = New System.Drawing.Point(252, 5)
+        Me.cboRole.Location = New System.Drawing.Point(252, 0)
         Me.cboRole.Name = "cboRole"
         Me.cboRole.Size = New System.Drawing.Size(150, 25)
         Me.cboRole.TabIndex = 1

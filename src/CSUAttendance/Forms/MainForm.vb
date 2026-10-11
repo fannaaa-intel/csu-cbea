@@ -19,6 +19,8 @@ Public Class MainForm
         Dim u = Session.User
         Text = $"CSU Attendance  -  {u.FullName} ({u.Role})"
         lblUserName.Text = ShortName(u.FullName)
+        lblUserName.Width = btnLogout.Left - lblUserName.Left - Theme.Dpi(2)
+        If TextRenderer.MeasureText(lblUserName.Text, lblUserName.Font).Width > lblUserName.Width Then lblUserName.Font = Theme.FontSmallBold
         lblUserRole.Text = u.Role
         lblAvatar.Text = Initials(u.FullName)
         lblDate.Text = Date.Today.ToString("dddd, MMMM d, yyyy")
@@ -40,7 +42,8 @@ Public Class MainForm
 
         MakeRound(lblAvatar)
         MakeRound(lblLogo)                       ' circular CSU seal
-        MakeRound(lblBellCount, 8)
+        btnBell.FlatAppearance.BorderColor = pnlTopbar.BackColor   ' no dark focus frame around the bell
+        AddHandler btnBell.LocationChanged, Sub() PlaceBellBadge()
 
         BuildMenu()
         Navigate("dashboard")
@@ -155,10 +158,19 @@ Public Class MainForm
             Dim n = Notifier.UnreadCount(Session.UserId)
             lblBellCount.Text = If(n > 99, "99+", n.ToString())
             lblBellCount.Visible = n > 0
-            lblBellCount.BringToFront()
+            PlaceBellBadge()
         Catch ex As Exception
             Debug.WriteLine("Bell refresh failed: " & ex.Message)
         End Try
+    End Sub
+
+    ''' <summary>Small rose pill on the bell's top-right corner, sized to its number.</summary>
+    Private Sub PlaceBellBadge()
+        Dim h = Theme.Dpi(18)
+        lblBellCount.Size = New Size(Math.Max(h, TextRenderer.MeasureText(lblBellCount.Text, lblBellCount.Font).Width + Theme.Dpi(8)), h)
+        lblBellCount.Location = New Point(btnBell.Right - lblBellCount.Width + Theme.Dpi(4), btnBell.Top + Theme.Dpi(2))
+        MakeRound(lblBellCount, h \ 2)
+        lblBellCount.BringToFront()
     End Sub
 
     Private Sub _bellTimer_Tick(sender As Object, e As EventArgs) Handles _bellTimer.Tick

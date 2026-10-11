@@ -33,7 +33,7 @@ Public Class ExcuseDialog
         Theme.FitWidth(btnSave, 112)
         btnSave.Left = ClientSize.Width - Theme.Dpi(30) - btnSave.Width
         btnCancel.Left = btnSave.Left - Theme.Dpi(8) - btnCancel.Width
-        SetRail(Icons.CheckList, "Excused absence", "CSU Student Manual s.II.B.4: faculty may require other work in lieu of attendance. The hours count as absent until the requirement is complied.")
+        SetRail(Icons.CheckList, "Excused absence", "Faculty may require work in lieu of attendance (Student Manual s.II.B.4). The hours count until it is complied.")
         lblInfo.Text = $"{_studentName} will be marked Excused with a Pending requirement."
     End Sub
 

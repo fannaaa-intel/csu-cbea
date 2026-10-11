@@ -25,10 +25,22 @@ Public Class Banner
         _kind = kind
         _glyph = glyph
         Text = message
-        Dim lines = TextRenderer.MeasureText(message, Font, New Size(Math.Max(200, Width - Theme.Dpi(80)), 0), TextFormatFlags.WordBreak).Height
-        Height = Math.Max(Theme.Dpi(48), lines + Theme.Dpi(24))
+        FitHeight()
         Visible = message <> ""
         Invalidate()
+    End Sub
+
+    ''' <summary>Height = text lines + padding; re-measured when the width changes (e.g. after docking).</summary>
+    Private Sub FitHeight()
+        Dim textHeight = TextRenderer.MeasureText(Text, Theme.FontBold, New Size(Math.Max(200, Width - Theme.Dpi(68)), 0),
+                                                  TextFormatFlags.WordBreak Or TextFormatFlags.NoPrefix).Height
+        Dim h = Math.Max(Theme.Dpi(52), textHeight + Theme.Dpi(36))
+        If Height <> h Then Height = h
+    End Sub
+
+    Protected Overrides Sub OnSizeChanged(e As EventArgs)
+        MyBase.OnSizeChanged(e)
+        If Text <> "" Then FitHeight()
     End Sub
 
     Protected Overrides Sub OnPaint(e As PaintEventArgs)

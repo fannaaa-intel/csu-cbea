@@ -65,7 +65,7 @@ Partial Class ClassesPage
         '
         Me.cboTerm.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cboTerm.FormattingEnabled = True
-        Me.cboTerm.Location = New System.Drawing.Point(212, 5)
+        Me.cboTerm.Location = New System.Drawing.Point(212, 0)
         Me.cboTerm.Name = "cboTerm"
         Me.cboTerm.Size = New System.Drawing.Size(200, 25)
         Me.cboTerm.TabIndex = 1
@@ -74,7 +74,7 @@ Partial Class ClassesPage
         '
         Me.cboSection.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cboSection.FormattingEnabled = True
-        Me.cboSection.Location = New System.Drawing.Point(424, 5)
+        Me.cboSection.Location = New System.Drawing.Point(424, 0)
         Me.cboSection.Name = "cboSection"
         Me.cboSection.Size = New System.Drawing.Size(140, 25)
         Me.cboSection.TabIndex = 2

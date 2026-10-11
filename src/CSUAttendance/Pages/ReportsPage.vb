@@ -12,7 +12,7 @@ Public Class ReportsPage
         ("Daily Attendance", "One class on one date"),
         ("Class Attendance Summary", "Hours absent and status per student"),
         ("Student Attendance Report", "One student, every subject"),
-        ("Warning & Drop List", "Students at Warning 1, 2, Dropped or Tardiness"),
+        ("Warning & Drop List", "Students on warning, dropped or often late"),
         ("Attendance by Date Range", "Counts per student between two dates")}
 
     Private ReadOnly picker As DataGridView = Ui.ListGrid()
@@ -23,9 +23,9 @@ Public Class ReportsPage
     Private ReadOnly cboClass As ComboBox = Ui.Combo(320)
     Private ReadOnly cboStudent As ComboBox = Ui.Combo(320)
     Private ReadOnly cboSection As ComboBox = Ui.Combo(180)
-    Private ReadOnly dtpDate As DateTimePicker = Ui.DatePicker(150)
-    Private ReadOnly dtpFrom As DateTimePicker = Ui.DatePicker(150)
-    Private ReadOnly dtpTo As DateTimePicker = Ui.DatePicker(150)
+    Private ReadOnly dtpDate As DateField = Ui.DatePicker(150)
+    Private ReadOnly dtpFrom As DateField = Ui.DatePicker(150)
+    Private ReadOnly dtpTo As DateField = Ui.DatePicker(150)
     Private lblTitle As Label
     Private lblNote As Label
     Private emptyLabel As Label
@@ -76,6 +76,7 @@ Public Class ReportsPage
         AddHandler picker.SelectionChanged, Sub() If Not _loading Then ReportChanged()
         AddHandler grid.CellPainting, AddressOf Grid_CellPainting
         AddHandler grid.CellFormatting, AddressOf Grid_CellFormatting
+        AddHandler cboClass.SelectedIndexChanged, Sub() If Not _loading AndAlso ReportIndex = 0 Then JumpToLastMeeting()
         For Each c In New Control() {cboClass, cboStudent, cboSection}
             AddHandler DirectCast(c, ComboBox).SelectedIndexChanged, Sub() If Not _loading Then RunReport()
         Next
@@ -98,16 +99,21 @@ Public Class ReportsPage
             Db.P("@t", Lookups.ActiveTermId()), Db.P("@tch", If(Session.IsTeacher, Session.User.TeacherId, 0)))
         Lookups.Bind(cboStudent, students, "student_id", "label")
         If cboStudent.Items.Count > 0 Then cboStudent.SelectedIndex = 0
-        ' Daily report opens on the most recent day that has saved attendance
-        Dim lastDay = Db.Scalar("SELECT MAX(s.session_date) FROM attendance_sessions s JOIN classes c ON c.class_id = s.class_id " &
-                                "WHERE c.term_id = @t AND (@tch = 0 OR c.teacher_id = @tch)", Db.P("@t", Lookups.ActiveTermId()),
-                                Db.P("@tch", If(Session.IsTeacher, Session.User.TeacherId, 0)))
-        dtpDate.Value = If(lastDay Is Nothing, Date.Today, Db.ToDate(lastDay))
+        JumpToLastMeeting()                  ' Daily report opens on the class's most recent meeting
         dtpFrom.Value = Date.Today.AddDays(-30)
         dtpTo.Value = Date.Today
         _loading = False
         picker.CurrentCell = picker.Rows(0).Cells(0)
         ReportChanged()
+    End Sub
+
+    ''' <summary>Sets the daily date to the selected class's latest saved session (today if none yet).</summary>
+    Private Sub JumpToLastMeeting()
+        Dim lastDay = Db.Scalar("SELECT MAX(session_date) FROM attendance_sessions WHERE class_id = @c", Db.P("@c", ClassId))
+        Dim wasLoading = _loading
+        _loading = True                      ' RunReport is called by the caller (or by the class change itself)
+        dtpDate.Value = If(lastDay Is Nothing OrElse IsDBNull(lastDay), Date.Today, Db.ToDate(lastDay))
+        _loading = wasLoading
     End Sub
 
     Private ReadOnly Property ReportIndex As Integer

@@ -29,9 +29,9 @@ Partial Class TermDialog
         Me.lblSemester = New System.Windows.Forms.Label()
         Me.cboSemester = New System.Windows.Forms.ComboBox()
         Me.lblStart = New System.Windows.Forms.Label()
-        Me.dtpStart = New System.Windows.Forms.DateTimePicker()
+        Me.dtpStart = New CSUAttendance.DateField()
         Me.lblEnd = New System.Windows.Forms.Label()
-        Me.dtpEnd = New System.Windows.Forms.DateTimePicker()
+        Me.dtpEnd = New CSUAttendance.DateField()
         Me.btnSave = New System.Windows.Forms.Button()
         Me.btnCancel = New System.Windows.Forms.Button()
         Me.errProvider = New System.Windows.Forms.ErrorProvider(Me.components)
@@ -83,7 +83,7 @@ Partial Class TermDialog
         Me.cboSemester.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cboSemester.FormattingEnabled = True
         Me.cboSemester.Items.AddRange(New Object() {"1st Semester", "2nd Semester", "Summer"})
-        Me.cboSemester.Location = New System.Drawing.Point(450, 101)
+        Me.cboSemester.Location = New System.Drawing.Point(450, 96)
         Me.cboSemester.Name = "cboSemester"
         Me.cboSemester.Size = New System.Drawing.Size(190, 25)
         Me.cboSemester.TabIndex = 1
@@ -102,9 +102,9 @@ Partial Class TermDialog
         '
         Me.dtpStart.CustomFormat = "MMM d, yyyy"
         Me.dtpStart.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.dtpStart.Location = New System.Drawing.Point(240, 168)
+        Me.dtpStart.Location = New System.Drawing.Point(240, 166)
         Me.dtpStart.Name = "dtpStart"
-        Me.dtpStart.Size = New System.Drawing.Size(190, 25)
+        Me.dtpStart.Size = New System.Drawing.Size(190, 36)
         Me.dtpStart.TabIndex = 2
         '
         'lblEnd
@@ -121,9 +121,9 @@ Partial Class TermDialog
         '
         Me.dtpEnd.CustomFormat = "MMM d, yyyy"
         Me.dtpEnd.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.dtpEnd.Location = New System.Drawing.Point(450, 168)
+        Me.dtpEnd.Location = New System.Drawing.Point(450, 166)
         Me.dtpEnd.Name = "dtpEnd"
-        Me.dtpEnd.Size = New System.Drawing.Size(190, 25)
+        Me.dtpEnd.Size = New System.Drawing.Size(190, 36)
         Me.dtpEnd.TabIndex = 3
         '
         'btnSave
@@ -189,9 +189,9 @@ Partial Class TermDialog
     Friend WithEvents lblSemester As System.Windows.Forms.Label
     Friend WithEvents cboSemester As System.Windows.Forms.ComboBox
     Friend WithEvents lblStart As System.Windows.Forms.Label
-    Friend WithEvents dtpStart As System.Windows.Forms.DateTimePicker
+    Friend WithEvents dtpStart As CSUAttendance.DateField
     Friend WithEvents lblEnd As System.Windows.Forms.Label
-    Friend WithEvents dtpEnd As System.Windows.Forms.DateTimePicker
+    Friend WithEvents dtpEnd As CSUAttendance.DateField
     Friend WithEvents btnSave As System.Windows.Forms.Button
     Friend WithEvents btnCancel As System.Windows.Forms.Button
     Friend WithEvents errProvider As System.Windows.Forms.ErrorProvider

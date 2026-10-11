@@ -261,7 +261,7 @@ Partial Class MainForm
         Me.Controls.Add(Me.pnlTopbar)
         Me.Controls.Add(Me.pnlSidebar)
         Me.Font = New System.Drawing.Font("Segoe UI", 10.0!)
-        Me.MinimumSize = New System.Drawing.Size(1200, 720)
+        Me.MinimumSize = New System.Drawing.Size(1024, 640)
         Me.Name = "MainForm"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "CSU Student Attendance Management System"

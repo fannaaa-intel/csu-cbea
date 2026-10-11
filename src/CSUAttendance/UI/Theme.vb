@@ -205,7 +205,7 @@ Public Module Theme
         cbo.MaxDropDownItems = 12
         If cbo.DrawMode = DrawMode.OwnerDrawFixed Then Return
         cbo.DrawMode = DrawMode.OwnerDrawFixed
-        cbo.ItemHeight = Dpi(28)
+        cbo.ItemHeight = Dpi(36) - 6          ' edit box + 6 px frame = 36 px, same as a TextField
         AddHandler cbo.DrawItem, AddressOf Combo_DrawItem
     End Sub
 

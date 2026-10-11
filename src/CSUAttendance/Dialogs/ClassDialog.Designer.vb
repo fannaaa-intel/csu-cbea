@@ -82,7 +82,7 @@ Partial Class ClassDialog
         '
         Me.cboTerm.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cboTerm.FormattingEnabled = True
-        Me.cboTerm.Location = New System.Drawing.Point(238, 101)
+        Me.cboTerm.Location = New System.Drawing.Point(238, 96)
         Me.cboTerm.Name = "cboTerm"
         Me.cboTerm.Size = New System.Drawing.Size(240, 25)
         Me.cboTerm.TabIndex = 0
@@ -101,7 +101,7 @@ Partial Class ClassDialog
         '
         Me.cboSubject.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cboSubject.FormattingEnabled = True
-        Me.cboSubject.Location = New System.Drawing.Point(490, 101)
+        Me.cboSubject.Location = New System.Drawing.Point(490, 96)
         Me.cboSubject.Name = "cboSubject"
         Me.cboSubject.Size = New System.Drawing.Size(248, 25)
         Me.cboSubject.TabIndex = 1
@@ -120,7 +120,7 @@ Partial Class ClassDialog
         '
         Me.cboSection.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cboSection.FormattingEnabled = True
-        Me.cboSection.Location = New System.Drawing.Point(238, 171)
+        Me.cboSection.Location = New System.Drawing.Point(238, 166)
         Me.cboSection.Name = "cboSection"
         Me.cboSection.Size = New System.Drawing.Size(240, 25)
         Me.cboSection.TabIndex = 2
@@ -139,7 +139,7 @@ Partial Class ClassDialog
         '
         Me.cboTeacher.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cboTeacher.FormattingEnabled = True
-        Me.cboTeacher.Location = New System.Drawing.Point(490, 171)
+        Me.cboTeacher.Location = New System.Drawing.Point(490, 166)
         Me.cboTeacher.Name = "cboTeacher"
         Me.cboTeacher.Size = New System.Drawing.Size(248, 25)
         Me.cboTeacher.TabIndex = 3

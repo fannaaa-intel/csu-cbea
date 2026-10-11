@@ -17,8 +17,9 @@ Public Class AdminDashboardPage
     Private ReadOnly ladder As New StandingLadder With {.Dock = DockStyle.Top}
     Private ReadOnly gridWarnings As DataGridView = Ui.ListGrid()
     Private ReadOnly gridPending As DataGridView = Ui.ListGrid()
+    Private ReadOnly gridRisk As DataGridView = Ui.ListGrid()
     Private lblChartNote, lblLadderNote, lblWarnNote, lblPendingNote As Label
-    Private emptyWarnings, emptyPending As Label
+    Private emptyWarnings, emptyPending, emptyRisk As Label
     Private greeting As Panel
 
     Public Overrides ReadOnly Property PageTitle As String
@@ -41,12 +42,21 @@ Public Class AdminDashboardPage
 
         board.Controls.Add(MakeCard("Absence hours by subject", lblChartNote, chart, 0, 0), 0, 0)
         Dim ladderHost As New Panel With {.Dock = DockStyle.Fill, .BackColor = Theme.Surface}
+        Dim riskCaption = Ui.Caption("Classes with students at risk", Theme.FontSmallBold, Theme.TextMuted)
+        riskCaption.AutoSize = False
+        riskCaption.Dock = DockStyle.Top
+        riskCaption.Height = Theme.Dpi(40)
+        riskCaption.TextAlign = ContentAlignment.BottomLeft
+        gridRisk.Dock = DockStyle.Fill
+        ladderHost.Controls.Add(gridRisk)        ' Fill first, then the Top docks (last added = topmost)
+        ladderHost.Controls.Add(riskCaption)
         ladderHost.Controls.Add(ladder)
         board.Controls.Add(MakeCard("Standing across all classes", lblLadderNote, ladderHost, 1, 0), 1, 0)
         board.Controls.Add(MakeCard("Latest warnings", lblWarnNote, gridWarnings, 0, 1), 0, 1)
         board.Controls.Add(MakeCard("Attendance not yet taken today", lblPendingNote, gridPending, 1, 1), 1, 1)
         emptyWarnings = Ui.EmptyState(gridWarnings, "No warnings issued yet this term.")
         emptyPending = Ui.EmptyState(gridPending, "")
+        emptyRisk = Ui.EmptyState(gridRisk, "Every class is in good standing.")
 
         Dim stats = Ui.EqualRow(116, cardStudents, cardClasses, cardRate, cardRisk)
         Controls.Add(board)
@@ -85,13 +95,15 @@ Public Class AdminDashboardPage
         cardRate.Note = If(total = 0, "No attendance taken yet today", $"{Db.ToInt(today("here"))} of {total} students present")
 
         ' --- standing (counted in VB) ---
-        Dim status = Db.Query("SELECT v.student_id, v.attendance_status FROM v_attendance_status v WHERE v.term_id = @t", Db.P("@t", termId))
+        Dim status = Db.Query("SELECT v.student_id, v.class_id, v.subject_code, v.section_name, v.attendance_status " &
+                              "FROM v_attendance_status v WHERE v.term_id = @t", Db.P("@t", termId))
         Dim count = Function(s As String) status.Rows.Cast(Of DataRow)().Count(Function(r) Db.ToStr(r("attendance_status")) = s)
         Dim atRisk = status.Rows.Cast(Of DataRow)().Where(Function(r) Db.ToStr(r("attendance_status")) <> "Good").Select(Function(r) Db.ToInt(r("student_id"))).Distinct().Count()
         cardRisk.Value = atRisk.ToString()
         cardRisk.Note = $"{count("Dropped")} reached the drop limit"
         ladder.SetCounts(count("Good"), count("Warning 1"), count("Warning 2"), count("Dropped"))
         lblLadderNote.Text = $"{Ui.Plural(status.Rows.Count, "enrollment")}"
+        LoadRiskByClass(status)
 
         ' --- chart ---
         Dim hours = Db.Query("SELECT v.subject_code, SUM(v.hours_absent) AS hrs FROM v_attendance_status v WHERE v.term_id = @t " &
@@ -117,6 +129,30 @@ Public Class AdminDashboardPage
         gridWarnings.Columns("issued_at").DefaultCellStyle.ForeColor = Theme.TextMuted
         lblWarnNote.Text = "most recent first"
         emptyWarnings.Visible = dt.Rows.Count = 0
+    End Sub
+
+    ''' <summary>One row per class that has students on warning or dropped (counted in VB, worst classes first).</summary>
+    Private Sub LoadRiskByClass(status As DataTable)
+        Dim dt As New DataTable()
+        dt.Columns.Add("class_label")
+        dt.Columns.Add("summary")
+        Dim groups = status.Rows.Cast(Of DataRow)().
+            Where(Function(r) Db.ToStr(r("attendance_status")) <> "Good").
+            GroupBy(Function(r) $"{r("subject_code")} · {r("section_name")}").
+            OrderByDescending(Function(g) g.Count())
+        For Each g In groups
+            Dim parts As New List(Of String)
+            For Each level In {"Warning 1", "Warning 2", "Dropped"}
+                Dim n = g.Count(Function(r) Db.ToStr(r("attendance_status")) = level)
+                If n > 0 Then parts.Add($"{n} {level}")
+            Next
+            dt.Rows.Add(g.Key, String.Join("  ·  ", parts))
+        Next
+        gridRisk.DataSource = dt
+        Ui.Col(gridRisk, "class_label", "", 45)
+        Ui.Col(gridRisk, "summary", "", 55)
+        gridRisk.Columns("summary").DefaultCellStyle.ForeColor = Theme.TextMuted
+        emptyRisk.Visible = dt.Rows.Count = 0
     End Sub
 
     ''' <summary>Classes that meet today (by their days) but have no session saved for today.</summary>

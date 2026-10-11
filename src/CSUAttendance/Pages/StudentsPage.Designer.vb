@@ -104,7 +104,7 @@ Partial Class StudentsPage
         '
         Me.cboSection.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cboSection.FormattingEnabled = True
-        Me.cboSection.Location = New System.Drawing.Point(316, 5)
+        Me.cboSection.Location = New System.Drawing.Point(316, 0)
         Me.cboSection.Name = "cboSection"
         Me.cboSection.Size = New System.Drawing.Size(184, 25)
         Me.cboSection.TabIndex = 1
