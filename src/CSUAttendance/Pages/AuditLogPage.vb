@@ -38,12 +38,12 @@ Public Class AuditLogPage
             Db.P("@from", dtpFrom.Value.Date), Db.P("@to", dtpTo.Value.Date.AddDays(1)), Db.P("@act", action),
             Db.P("@q", q), Db.P("@like", "%" & q & "%"))
         dgv.DataSource = dt
-        Ui.Col(dgv, "created_at", "Date and time", 16, "MMM d, yyyy  h:mm tt")
+        Ui.Col(dgv, "created_at", "Date and time", 22, "MMM d, yyyy  h:mm tt")
         Ui.Col(dgv, "username", "User", 12)
         Ui.Col(dgv, "action", "Action", 11)
         Ui.Col(dgv, "entity", "Record", 11)
-        Ui.Col(dgv, "entity_id", "ID", 6)
-        Ui.Col(dgv, "details", "Details", 44)
+        Ui.Col(dgv, "entity_id", "ID", 5)
+        Ui.Col(dgv, "details", "Details", 38)
         lblCount.Text = If(dt.Rows.Count >= 500, "latest 500 entries", Ui.Plural(dt.Rows.Count, "entry", "entries"))
         lblEmpty.Visible = dt.Rows.Count = 0
         lblEmpty.BringToFront()

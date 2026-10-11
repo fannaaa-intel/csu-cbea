@@ -8,7 +8,7 @@ Imports System.Windows.Forms
 Public Class RecordsPage
     Inherits PageBase
 
-    Private ReadOnly cboClass As ComboBox = Ui.Combo(330)
+    Private ReadOnly cboClass As ComboBox = Ui.Combo(260)
     Private ReadOnly dtpFrom As DateField = Ui.DatePicker(150)
     Private ReadOnly dtpTo As DateField = Ui.DatePicker(150)
     Private ReadOnly lblTo As Label = Ui.Muted("to")

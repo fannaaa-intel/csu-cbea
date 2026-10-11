@@ -57,17 +57,17 @@ Partial Class ClassesPage
         '
         Me.txtSearch.Location = New System.Drawing.Point(0, 0)
         Me.txtSearch.Name = "txtSearch"
-        Me.txtSearch.Placeholder = "Search subject or teacher"
-        Me.txtSearch.Size = New System.Drawing.Size(200, 36)
+        Me.txtSearch.Placeholder = "Search class or teacher"
+        Me.txtSearch.Size = New System.Drawing.Size(170, 36)
         Me.txtSearch.TabIndex = 0
         '
         'cboTerm
         '
         Me.cboTerm.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cboTerm.FormattingEnabled = True
-        Me.cboTerm.Location = New System.Drawing.Point(212, 0)
+        Me.cboTerm.Location = New System.Drawing.Point(182, 0)
         Me.cboTerm.Name = "cboTerm"
-        Me.cboTerm.Size = New System.Drawing.Size(200, 25)
+        Me.cboTerm.Size = New System.Drawing.Size(230, 25)
         Me.cboTerm.TabIndex = 1
         '
         'cboSection
@@ -76,7 +76,7 @@ Partial Class ClassesPage
         Me.cboSection.FormattingEnabled = True
         Me.cboSection.Location = New System.Drawing.Point(424, 0)
         Me.cboSection.Name = "cboSection"
-        Me.cboSection.Size = New System.Drawing.Size(140, 25)
+        Me.cboSection.Size = New System.Drawing.Size(124, 25)
         Me.cboSection.TabIndex = 2
         '
         'btnAdd
@@ -114,7 +114,7 @@ Partial Class ClassesPage
         Me.lblCount.AutoSize = True
         Me.lblCount.Font = New System.Drawing.Font("Segoe UI", 9.0!)
         Me.lblCount.ForeColor = System.Drawing.Color.FromArgb(CType(CType(107, Byte), Integer), CType(CType(114, Byte), Integer), CType(CType(128, Byte), Integer))
-        Me.lblCount.Location = New System.Drawing.Point(580, 10)
+        Me.lblCount.Location = New System.Drawing.Point(560, 10)
         Me.lblCount.Name = "lblCount"
         Me.lblCount.Size = New System.Drawing.Size(60, 15)
         Me.lblCount.TabIndex = 6

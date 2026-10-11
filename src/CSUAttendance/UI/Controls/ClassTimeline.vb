@@ -72,6 +72,7 @@ Public Class ClassTimeline
 
         Protected Overrides Sub OnLayout(e As LayoutEventArgs)
             MyBase.OnLayout(e)
+            If _button Is Nothing Then Return       ' setting Height in the constructor lays out before the button exists
             _button.Location = New Point(Width - _button.Width - Theme.Dpi(4), (Height - _button.Height) \ 2)
         End Sub
 

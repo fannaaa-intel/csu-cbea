@@ -29,8 +29,8 @@ Public Class ClassesPage
         Dim q = txtSearch.Text.Trim()
         Dim dt = Db.Query(
             "SELECT c.class_id, sub.subject_code, sub.description, sec.section_name, " &
-            "       CONCAT(t.last_name, ', ', t.first_name) AS teacher_name, " &
-            "       CONCAT(REPLACE(c.days, ',', ' · '), '   ', TRIM(TIME_FORMAT(c.start_time, '%l:%i')), '–', TRIM(TIME_FORMAT(c.end_time, '%l:%i %p'))) AS schedule, " &
+            "       CONCAT(t.last_name, ', ', LEFT(t.first_name, 1), '.') AS teacher_name, " &
+            "       CONCAT(REPLACE(c.days, ',', '/'), '  ', TRIM(TIME_FORMAT(c.start_time, '%l:%i')), '–', TRIM(TIME_FORMAT(c.end_time, '%l:%i %p'))) AS schedule, " &
             "       c.room, c.total_hours, " &
             "       (SELECT COUNT(*) FROM class_enrollments e WHERE e.class_id = c.class_id) AS enrolled " &
             "FROM classes c JOIN subjects sub ON sub.subject_id = c.subject_id JOIN sections sec ON sec.section_id = c.section_id " &
@@ -43,12 +43,12 @@ Public Class ClassesPage
 
         dgv.DataSource = dt
         dgv.Columns("class_id").Visible = False
-        SetColumn("subject_code", "Code", 10)
-        SetColumn("description", "Subject", 24)
-        SetColumn("section_name", "Section", 11)
-        SetColumn("teacher_name", "Teacher", 17)
-        SetColumn("schedule", "Schedule", 20)
-        SetColumn("room", "Room", 9)
+        SetColumn("subject_code", "Code", 9)
+        SetColumn("description", "Subject", 26)
+        SetColumn("section_name", "Section", 10)
+        SetColumn("teacher_name", "Teacher", 12)
+        SetColumn("schedule", "Schedule", 21)
+        SetColumn("room", "Room", 11)
         SetColumn("total_hours", "Hours", 7)
         SetColumn("enrolled", "Students", 8)
         dgv.Columns("total_hours").DefaultCellStyle.Format = "0.#"

@@ -10,8 +10,8 @@ Public Class EnrollmentPage
 
     Private ReadOnly cboClass As ComboBox = Ui.Combo(380)
     Private ReadOnly lblClassInfo As Label = Ui.Muted("")
-    Private ReadOnly cboSection As ComboBox = Ui.Combo(170)
-    Private ReadOnly txtSearch As TextField = Ui.Search("Search student no. or name", 240)
+    Private ReadOnly cboSection As ComboBox = Ui.Combo(130)
+    Private ReadOnly txtSearch As TextField = Ui.Search("Search student no. or name", 190)
     Private ReadOnly gridAvailable As DataGridView = Ui.Grid(True)
     Private ReadOnly gridEnrolled As DataGridView = Ui.Grid(True)
     Private ReadOnly btnAdd As Button = Ui.Action("Add selected", "primary", Icons.ArrowRight, 170)

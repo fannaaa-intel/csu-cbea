@@ -54,32 +54,32 @@ Partial Class AuditLogPage
         Me.txtSearch.Location = New System.Drawing.Point(0, 0)
         Me.txtSearch.Name = "txtSearch"
         Me.txtSearch.Placeholder = "Search user, entity or details"
-        Me.txtSearch.Size = New System.Drawing.Size(220, 36)
+        Me.txtSearch.Size = New System.Drawing.Size(200, 36)
         Me.txtSearch.TabIndex = 0
         '
         'dtpFrom
         '
         Me.dtpFrom.CustomFormat = "MMM d, yyyy"
         Me.dtpFrom.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.dtpFrom.Location = New System.Drawing.Point(232, 0)
+        Me.dtpFrom.Location = New System.Drawing.Point(212, 0)
         Me.dtpFrom.Name = "dtpFrom"
-        Me.dtpFrom.Size = New System.Drawing.Size(130, 36)
+        Me.dtpFrom.Size = New System.Drawing.Size(146, 36)
         Me.dtpFrom.TabIndex = 1
         '
         'dtpTo
         '
         Me.dtpTo.CustomFormat = "MMM d, yyyy"
         Me.dtpTo.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.dtpTo.Location = New System.Drawing.Point(374, 0)
+        Me.dtpTo.Location = New System.Drawing.Point(370, 0)
         Me.dtpTo.Name = "dtpTo"
-        Me.dtpTo.Size = New System.Drawing.Size(130, 36)
+        Me.dtpTo.Size = New System.Drawing.Size(146, 36)
         Me.dtpTo.TabIndex = 2
         '
         'cboAction
         '
         Me.cboAction.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cboAction.FormattingEnabled = True
-        Me.cboAction.Location = New System.Drawing.Point(516, 0)
+        Me.cboAction.Location = New System.Drawing.Point(528, 0)
         Me.cboAction.Name = "cboAction"
         Me.cboAction.Size = New System.Drawing.Size(150, 25)
         Me.cboAction.TabIndex = 3
@@ -89,7 +89,7 @@ Partial Class AuditLogPage
         Me.lblCount.AutoSize = True
         Me.lblCount.Font = New System.Drawing.Font("Segoe UI", 9.0!)
         Me.lblCount.ForeColor = System.Drawing.Color.FromArgb(CType(CType(107, Byte), Integer), CType(CType(114, Byte), Integer), CType(CType(128, Byte), Integer))
-        Me.lblCount.Location = New System.Drawing.Point(682, 10)
+        Me.lblCount.Location = New System.Drawing.Point(694, 10)
         Me.lblCount.Name = "lblCount"
         Me.lblCount.Size = New System.Drawing.Size(60, 15)
         Me.lblCount.TabIndex = 4
