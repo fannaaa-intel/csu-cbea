@@ -415,11 +415,12 @@ Public Class TakeAttendancePage
             End Using
             If letterIndex < 0 Then
                 e.Paint(e.CellBounds, DataGridViewPaintParts.ContentForeground)
+                Theme.DrawRowLine(e)
                 e.Handled = True
                 Return
             End If
         Else
-            e.PaintBackground(e.CellBounds, selected)
+            Theme.FillCell(e)
         End If
 
         Dim en = _roster(e.RowIndex)
@@ -442,6 +443,7 @@ Public Class TakeAttendancePage
         TextRenderer.DrawText(e.Graphics, Letters(letterIndex), Theme.FontSmallBold, r,
                               If(isOn, Color.White, If(_locked, Theme.Border, colors.Fore)),
                               TextFormatFlags.HorizontalCenter Or TextFormatFlags.VerticalCenter)
+        Theme.DrawRowLine(e)
         e.Handled = True
     End Sub
 

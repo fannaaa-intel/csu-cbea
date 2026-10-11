@@ -57,6 +57,8 @@ Public Module Theme
     Public ReadOnly DangerSoft As Color = ColorTranslator.FromHtml("#FEE2E2")
     Public ReadOnly Info As Color = ColorTranslator.FromHtml("#2563EB")
     Public ReadOnly InfoSoft As Color = ColorTranslator.FromHtml("#DBEAFE")
+    Public ReadOnly Violet As Color = ColorTranslator.FromHtml("#7C3AED")
+    Public ReadOnly VioletSoft As Color = ColorTranslator.FromHtml("#EDE9FE")
     Public ReadOnly Neutral As Color = ColorTranslator.FromHtml("#4B5563")
     Public ReadOnly NeutralSoft As Color = ColorTranslator.FromHtml("#F3F4F6")
 
@@ -91,7 +93,7 @@ Public Module Theme
             Case "Excused", "Info", "Teacher"
                 Return New BadgeColors(Info, InfoSoft)
             Case "Admin"
-                Return New BadgeColors(Accent, AccentSoft)
+                Return New BadgeColors(Violet, VioletSoft)
             Case Else
                 Return New BadgeColors(Neutral, NeutralSoft)
         End Select
@@ -157,18 +159,39 @@ Public Module Theme
         btn.Cursor = Cursors.Hand
         btn.UseMnemonic = False
         btn.Height = Dpi(ControlHeight)
+        btn.TextAlign = ContentAlignment.MiddleCenter
         If Not String.IsNullOrEmpty(glyph) Then
             btn.Image = GlyphImage(glyph, fore, Dpi(14))
-            btn.ImageAlign = ContentAlignment.MiddleLeft
+            btn.ImageAlign = ContentAlignment.MiddleCenter          ' icon + text centered together as one group
             btn.TextImageRelation = TextImageRelation.ImageBeforeText
             btn.Padding = New Padding(Dpi(12), 0, Dpi(12), 0)
         End If
+        ' Never let the label wrap or get cut ("Delet", "Edi"): grow the button to fit its text
+        Dim need = NeededWidth(btn)
+        If btn.Width < need Then btn.Width = need
     End Sub
 
     ''' <summary>Makes a button wide enough for its text (+ icon) so labels are never squeezed.</summary>
     Public Sub FitWidth(btn As Button, Optional minWidth As Integer = 96)
-        Dim w = TextRenderer.MeasureText(btn.Text, btn.Font).Width + Dpi(36) + If(btn.Image IsNot Nothing, btn.Image.Width + Dpi(8), 0)
-        btn.Width = Math.Max(Dpi(minWidth), w)
+        btn.Width = Math.Max(Dpi(minWidth), NeededWidth(btn))
+    End Sub
+
+    Private Function NeededWidth(btn As Button) As Integer
+        Return TextRenderer.MeasureText(btn.Text, btn.Font).Width + Dpi(40) + If(btn.Image IsNot Nothing, btn.Image.Width + Dpi(8), 0)
+    End Function
+
+    ''' <summary>
+    ''' Re-stacks the right-anchored buttons of a toolbar from the right edge with an 8 px gap,
+    ''' after they were widened to fit their text (designer widths are only a starting point).
+    ''' </summary>
+    Public Sub ArrangeToolbar(bar As Control)
+        Dim x = bar.ClientSize.Width
+        For Each b In bar.Controls.OfType(Of Button)().Where(Function(c) c.Visible AndAlso (c.Anchor And AnchorStyles.Right) <> 0).OrderByDescending(Function(c) c.Left).ToList()
+            x -= b.Width
+            b.Left = x
+            b.Top = 0
+            x -= Dpi(8)
+        Next
     End Sub
 
     ' ---------- Inputs ----------
@@ -214,7 +237,7 @@ Public Module Theme
         dgv.BorderStyle = BorderStyle.None
         dgv.BackgroundColor = Surface
         dgv.GridColor = Border
-        dgv.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal
+        dgv.CellBorderStyle = DataGridViewCellBorderStyle.None       ' we draw one clean line under each row ourselves
         dgv.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None
         dgv.RowHeadersVisible = False
         dgv.EnableHeadersVisualStyles = False
@@ -253,7 +276,35 @@ Public Module Theme
             AddHandler dgv.MouseWheel, AddressOf Grid_MouseWheel
             AddHandler dgv.SelectionChanged, AddressOf Grid_KeepCurrentRowVisible
             AddHandler dgv.RowPrePaint, Sub(s, e) e.PaintParts = e.PaintParts And Not DataGridViewPaintParts.Focus
+            AddHandler dgv.CellPainting, AddressOf Grid_CellPainting
         End If
+    End Sub
+
+    ''' <summary>
+    ''' Paints every data cell: background (rose tint when selected), text, and a single line under the row.
+    ''' Skips cells a page already painted (e.g. status badges set e.Handled).
+    ''' </summary>
+    Private Sub Grid_CellPainting(sender As Object, e As DataGridViewCellPaintingEventArgs)
+        If e.Handled OrElse e.RowIndex < 0 OrElse e.ColumnIndex < 0 Then Return
+        FillCell(e)
+        e.PaintContent(e.CellBounds)
+        DrawRowLine(e)
+        e.Handled = True
+    End Sub
+
+    ''' <summary>Fills the whole cell (no 1-px seams between columns) with its normal or selected background.</summary>
+    Public Sub FillCell(e As DataGridViewCellPaintingEventArgs)
+        Dim selected = (e.State And DataGridViewElementStates.Selected) <> 0
+        Using br As New SolidBrush(If(selected, e.CellStyle.SelectionBackColor, e.CellStyle.BackColor))
+            e.Graphics.FillRectangle(br, e.CellBounds)
+        End Using
+    End Sub
+
+    ''' <summary>The thin divider under a grid row (call from custom cell painting).</summary>
+    Public Sub DrawRowLine(e As DataGridViewCellPaintingEventArgs)
+        Using pen As New Pen(Border)
+            e.Graphics.DrawLine(pen, e.CellBounds.Left, e.CellBounds.Bottom - 1, e.CellBounds.Right, e.CellBounds.Bottom - 1)
+        End Using
     End Sub
 
     ''' <summary>Mouse-wheel scrolling for grids whose scrollbars are hidden.</summary>
@@ -295,7 +346,7 @@ Public Module Theme
         If e.RowIndex < 0 OrElse e.Value Is Nothing OrElse TypeOf e.Value Is DBNull Then Return
         Dim text = Convert.ToString(e.Value)
         If text = "" Then Return
-        e.PaintBackground(e.CellBounds, (e.State And DataGridViewElementStates.Selected) <> 0)
+        FillCell(e)
         Dim colors = StatusColors(text)
         Dim sz = TextRenderer.MeasureText(text, FontSmallBold)
         Dim h = Dpi(24)
@@ -307,6 +358,7 @@ Public Module Theme
         End Using
         TextRenderer.DrawText(e.Graphics, text, FontSmallBold, rect, colors.Fore,
                               TextFormatFlags.HorizontalCenter Or TextFormatFlags.VerticalCenter Or TextFormatFlags.EndEllipsis)
+        DrawRowLine(e)
         e.Handled = True
     End Sub
 
@@ -335,12 +387,23 @@ Public Module Theme
     End Function
 
     ''' <summary>Renders a Segoe MDL2 Assets glyph to a bitmap (for Button.Image / PictureBox). size is in pixels.</summary>
+    ''' The glyph is turned into a shape and centered by its ink, so icons sit exactly in the middle of the button.
     Public Function GlyphImage(glyph As String, color As Color, size As Integer) As Bitmap
         Dim bmp As New Bitmap(size + 4, size + 4)
-        Using g = Graphics.FromImage(bmp), f As New Font("Segoe MDL2 Assets", CSng(size), GraphicsUnit.Pixel)
-            g.TextRenderingHint = Drawing.Text.TextRenderingHint.AntiAliasGridFit
-            TextRenderer.DrawText(g, glyph, f, New Rectangle(0, 0, bmp.Width, bmp.Height), color,
-                                  TextFormatFlags.HorizontalCenter Or TextFormatFlags.VerticalCenter Or TextFormatFlags.NoPadding)
+        Using g = Graphics.FromImage(bmp), path As New GraphicsPath(), family As New FontFamily("Segoe MDL2 Assets"), br As New SolidBrush(color)
+            g.SmoothingMode = SmoothingMode.AntiAlias
+            path.AddString(glyph, family, 0, size, Point.Empty, StringFormat.GenericTypographic)
+            Dim b = path.GetBounds()
+            If b.Width > 0 AndAlso b.Height > 0 Then
+                Dim scale = Math.Min(1.0F, size / Math.Max(b.Width, b.Height))
+                Using m As New Matrix()
+                    m.Translate(bmp.Width / 2.0F, bmp.Height / 2.0F)
+                    m.Scale(scale, scale)
+                    m.Translate(-(b.X + b.Width / 2.0F), -(b.Y + b.Height / 2.0F))
+                    path.Transform(m)
+                End Using
+                g.FillPath(br, path)
+            End If
         End Using
         Return bmp
     End Function

@@ -7,7 +7,6 @@ Public Class LoginForm
 
     Private Const DbDownMessage As String = "Cannot connect to the database. Start MySQL in the XAMPP Control Panel, then try again."
     Private _schoolName As String = "CAGAYAN STATE UNIVERSITY"
-    Private ReadOnly _checkFont As New Font("Segoe MDL2 Assets", 8.0F)
 
     Private Sub LoginForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Theme.EnableDoubleBuffer(pnlBrand)
@@ -18,12 +17,10 @@ Public Class LoginForm
         txtUsername.Focus()
     End Sub
 
-    ''' <summary>Shows a green/red database status line and reads the school name.</summary>
+    ''' <summary>Reads the school name; when the database is down, shows the error under the sign-in fields.</summary>
     Private Sub CheckDatabase()
         Dim err As String = ""
         If Db.TestConnection(err) Then
-            lblDb.Text = ChrW(&H25CF) & "  Database connected"
-            lblDb.ForeColor = Theme.Success
             Try
                 _schoolName = AppSettings.SchoolName.ToUpper()
                 pnlBrand.Invalidate()
@@ -31,8 +28,6 @@ Public Class LoginForm
                 ' settings table missing: keep the default name
             End Try
         Else
-            lblDb.Text = ChrW(&H25CF) & "  Database offline - start MySQL in XAMPP"
-            lblDb.ForeColor = Theme.Danger
             ShowError(DbDownMessage)
         End If
     End Sub
@@ -48,65 +43,86 @@ Public Class LoginForm
                                      Math.Max(0, (pnlForm.ClientSize.Height - pnlCard.Height) \ 2))
     End Sub
 
-    ''' <summary>Paints the brand side: rose gradient, soft rings, school name, title, three feature lines.</summary>
+    ''' <summary>
+    ''' Paints the brand side: deep rose gradient with stripes, a CSU seal header, a headline,
+    ''' and a "policy card" that draws the 10% / 15% / 20% thresholds as a meter.
+    ''' </summary>
     Private Sub pnlBrand_Paint(sender As Object, e As PaintEventArgs) Handles pnlBrand.Paint
         Dim g = e.Graphics
         g.SmoothingMode = SmoothingMode.AntiAlias
         Dim r = pnlBrand.ClientRectangle
         If r.Width = 0 OrElse r.Height = 0 Then Return
-        Using br As New LinearGradientBrush(r, Theme.Accent, Theme.AccentDeep, 60.0F)
+        Using br As New LinearGradientBrush(r, Theme.AccentDeep, Theme.Accent, 115.0F)
             g.FillRectangle(br, r)
         End Using
-        Theme.DrawStripes(g, New Rectangle(r.Right - Theme.Dpi(220), 0, Theme.Dpi(220), Theme.Dpi(220)), 26, 18)
-        Theme.DrawStripes(g, New Rectangle(0, r.Bottom - Theme.Dpi(160), Theme.Dpi(160), Theme.Dpi(160)), 20, 18)
-        Using dot As New SolidBrush(Color.FromArgb(30, Color.White))
-            For y = Theme.Dpi(40) To Theme.Dpi(140) Step Theme.Dpi(16)
-                For x = r.Right - Theme.Dpi(150) To r.Right - Theme.Dpi(40) Step Theme.Dpi(16)
-                    g.FillEllipse(dot, x, y, Theme.Dpi(3), Theme.Dpi(3))
-                Next
-            Next
-        End Using
+        Theme.DrawStripes(g, New Rectangle(r.Right - Theme.Dpi(260), 0, Theme.Dpi(260), Theme.Dpi(180)), 22, 18)
 
-        ' Content block, vertically centered
-        Dim left = Math.Max(Theme.Dpi(48), r.Width \ 9)
+        Dim left = Math.Max(Theme.Dpi(48), r.Width \ 10)
         Dim w = r.Width - left * 2
-        Dim top = Math.Max(Theme.Dpi(40), (r.Height - Theme.Dpi(470)) \ 2)
+        Dim soft = Color.FromArgb(215, Color.White)
 
-        Dim tile As New Rectangle(left, top, Theme.Dpi(64), Theme.Dpi(64))
-        Using path = Theme.RoundedRect(tile, Theme.Dpi(18)), br As New SolidBrush(Color.FromArgb(50, Color.White))
+        ' Header: CSU seal + school name
+        Dim seal As New Rectangle(left, Theme.Dpi(40), Theme.Dpi(46), Theme.Dpi(46))
+        Using br As New SolidBrush(Color.FromArgb(40, Color.White)), pen As New Pen(Color.FromArgb(200, Color.White), Theme.Dpi(2))
+            g.FillEllipse(br, seal)
+            g.DrawEllipse(pen, seal)
+        End Using
+        TextRenderer.DrawText(g, "CSU", Theme.FontSmallBold, seal, Color.White, TextFormatFlags.HorizontalCenter Or TextFormatFlags.VerticalCenter)
+        TextRenderer.DrawText(g, _schoolName, Theme.FontBold, New Rectangle(seal.Right + Theme.Dpi(14), seal.Top + Theme.Dpi(2), w, Theme.Dpi(22)),
+                              Color.White, TextFormatFlags.Left Or TextFormatFlags.VerticalCenter)
+        TextRenderer.DrawText(g, "Student Attendance Management System", Theme.FontSmall, New Rectangle(seal.Right + Theme.Dpi(14), seal.Top + Theme.Dpi(24), w, Theme.Dpi(20)),
+                              soft, TextFormatFlags.Left Or TextFormatFlags.VerticalCenter)
+
+        ' Headline block + policy card, centered vertically in the remaining space
+        Dim blockH = Theme.Dpi(420)
+        Dim top = Math.Max(seal.Bottom + Theme.Dpi(40), (r.Height - blockH) \ 2)
+        Using titleFont As New Font("Segoe UI Semibold", 28.0F)
+            TextRenderer.DrawText(g, "Every class hour," & vbCrLf & "accounted for.", titleFont,
+                                  New Rectangle(left - Theme.Dpi(3), top, w, Theme.Dpi(116)), Color.White, TextFormatFlags.Left Or TextFormatFlags.WordBreak)
+        End Using
+        TextRenderer.DrawText(g, "Take attendance in seconds, see who is at risk, and print reports for the Registrar.",
+                              Theme.FontBase, New Rectangle(left, top + Theme.Dpi(124), Math.Min(w, Theme.Dpi(440)), Theme.Dpi(48)),
+                              soft, TextFormatFlags.Left Or TextFormatFlags.WordBreak)
+
+        ' Policy card
+        Dim card As New Rectangle(left, top + Theme.Dpi(196), Math.Min(w, Theme.Dpi(500)), Theme.Dpi(200))
+        Using path = Theme.RoundedRect(card, Theme.Dpi(16)), br As New SolidBrush(Color.FromArgb(34, Color.White)), pen As New Pen(Color.FromArgb(60, Color.White))
             g.FillPath(br, path)
+            g.DrawPath(pen, path)
         End Using
-        Using f As New Font("Segoe MDL2 Assets", 22.0F)
-            TextRenderer.DrawText(g, Icons.Classes, f, tile, Color.White, TextFormatFlags.HorizontalCenter Or TextFormatFlags.VerticalCenter)
-        End Using
+        Dim cx = card.X + Theme.Dpi(24), cw = card.Width - Theme.Dpi(48)
+        TextRenderer.DrawText(g, "CSU ATTENDANCE POLICY", Theme.FontSmallBold, New Rectangle(cx, card.Y + Theme.Dpi(20), cw, Theme.Dpi(20)), Color.White, TextFormatFlags.Left)
+        TextRenderer.DrawText(g, "Student Manual 2019, s.II.B.4 and s.II.C.2.1", Theme.FontSmall, New Rectangle(cx, card.Y + Theme.Dpi(40), cw, Theme.Dpi(20)), soft, TextFormatFlags.Left)
 
-        Dim y0 = tile.Bottom + Theme.Dpi(28)
-        TextRenderer.DrawText(g, _schoolName, Theme.FontSmallBold, New Rectangle(left, y0, w, Theme.Dpi(20)), Color.FromArgb(230, Color.White), TextFormatFlags.Left)
-        Using titleFont As New Font("Segoe UI Semibold", 26.0F)
-            TextRenderer.DrawText(g, "Student Attendance" & vbCrLf & "Management System", titleFont,
-                                  New Rectangle(left - Theme.Dpi(3), y0 + Theme.Dpi(26), w, Theme.Dpi(110)), Color.White, TextFormatFlags.Left Or TextFormatFlags.WordBreak)
+        ' Meter: 0% ... 20%+ with colored zones and three markers
+        Dim bar As New Rectangle(cx, card.Y + Theme.Dpi(84), cw, Theme.Dpi(10))
+        Dim zones = {(0.0F, 0.4F, Theme.Success), (0.4F, 0.6F, Theme.Warning), (0.6F, 0.8F, Theme.Orange), (0.8F, 1.0F, Theme.Danger)}
+        Using path = Theme.RoundedRect(bar, bar.Height \ 2)
+            g.SetClip(path)
+            For Each z In zones
+                Using br As New SolidBrush(z.Item3)
+                    g.FillRectangle(br, bar.X + bar.Width * z.Item1, bar.Y, bar.Width * (z.Item2 - z.Item1) + 1, bar.Height)
+                End Using
+            Next
+            g.ResetClip()
         End Using
-        TextRenderer.DrawText(g, "Record, monitor and report class attendance following the CSU Student Manual attendance policy.",
-                              Theme.FontBase, New Rectangle(left, y0 + Theme.Dpi(142), Math.Min(w, Theme.Dpi(420)), Theme.Dpi(48)),
-                              Color.FromArgb(225, Color.White), TextFormatFlags.Left Or TextFormatFlags.WordBreak)
-
-        Dim features = {"Absences counted in class hours, not days",
-                        "Automatic warnings at 10% and 15%, drop at 20%",
-                        "Reports ready to print, save as PDF or export"}
-        Dim fy = y0 + Theme.Dpi(214)
-        For Each feature In features
-            Dim chip As New Rectangle(left, fy, Theme.Dpi(26), Theme.Dpi(26))
-            Using br As New SolidBrush(Color.FromArgb(55, Color.White))
-                g.FillEllipse(br, chip)
+        Dim marks = {(0.4F, "10%", "Warning 1"), (0.6F, "15%", "Warning 2"), (0.8F, "20%", "Dropped")}
+        For Each m In marks
+            Dim mx = bar.X + CInt(bar.Width * m.Item1)
+            Using pen As New Pen(Color.White, Theme.Dpi(2))
+                g.DrawLine(pen, mx, bar.Y - Theme.Dpi(6), mx, bar.Bottom + Theme.Dpi(6))
             End Using
-            TextRenderer.DrawText(g, Icons.Check, _checkFont, chip, Color.White, TextFormatFlags.HorizontalCenter Or TextFormatFlags.VerticalCenter)
-            TextRenderer.DrawText(g, feature, Theme.FontBase, New Rectangle(chip.Right + Theme.Dpi(12), fy, w - Theme.Dpi(40), Theme.Dpi(26)),
-                                  Color.White, TextFormatFlags.Left Or TextFormatFlags.VerticalCenter Or TextFormatFlags.EndEllipsis)
-            fy += Theme.Dpi(40)
+            Dim lw = Theme.Dpi(110)
+            TextRenderer.DrawText(g, m.Item2, Theme.FontBold, New Rectangle(mx - lw \ 2, bar.Bottom + Theme.Dpi(10), lw, Theme.Dpi(22)), Color.White,
+                                  TextFormatFlags.HorizontalCenter Or TextFormatFlags.VerticalCenter)
+            TextRenderer.DrawText(g, m.Item3, Theme.FontSmall, New Rectangle(mx - lw \ 2, bar.Bottom + Theme.Dpi(32), lw, Theme.Dpi(20)), soft,
+                                  TextFormatFlags.HorizontalCenter Or TextFormatFlags.VerticalCenter)
         Next
+        TextRenderer.DrawText(g, "of total class hours absent  ·  counted in hours, not days", Theme.FontSmall,
+                              New Rectangle(cx, card.Bottom - Theme.Dpi(40), cw, Theme.Dpi(20)), soft, TextFormatFlags.Left Or TextFormatFlags.EndEllipsis)
 
         TextRenderer.DrawText(g, "BSAIS 3B  ·  System Project  ·  2026", Theme.FontSmall,
-                              New Rectangle(left, r.Bottom - Theme.Dpi(48), w, Theme.Dpi(20)), Color.FromArgb(180, Color.White), TextFormatFlags.Left)
+                              New Rectangle(left, r.Bottom - Theme.Dpi(48), w, Theme.Dpi(20)), Color.FromArgb(170, Color.White), TextFormatFlags.Left)
     End Sub
 
     Private Sub pnlBrand_Resize(sender As Object, e As EventArgs) Handles pnlBrand.Resize

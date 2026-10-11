@@ -30,6 +30,13 @@ Public Class PageBase
     Public Overridable Sub OnPageShown()
     End Sub
 
+    ''' <summary>Called by MainForm after OnPageShown: re-stacks designer toolbar buttons once they are sized to their text.</summary>
+    Friend Sub TidyToolbars()
+        For Each bar In Controls.OfType(Of Panel)().Where(Function(p) p.Name = "pnlToolbar")
+            Theme.ArrangeToolbar(bar)
+        Next
+    End Sub
+
     ''' <summary>Return False to stop navigation (e.g. unsaved attendance). Ask the user inside.</summary>
     Public Overridable Function CanLeave() As Boolean
         Return True

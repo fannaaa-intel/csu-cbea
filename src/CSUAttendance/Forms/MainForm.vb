@@ -18,7 +18,7 @@ Public Class MainForm
     Private Sub MainForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Dim u = Session.User
         Text = $"CSU Attendance  -  {u.FullName} ({u.Role})"
-        lblUserName.Text = u.FullName
+        lblUserName.Text = ShortName(u.FullName)
         lblUserRole.Text = u.Role
         lblAvatar.Text = Initials(u.FullName)
         lblDate.Text = Date.Today.ToString("dddd, MMMM d, yyyy")
@@ -122,6 +122,7 @@ Public Class MainForm
 
         Try
             page.OnPageShown()
+            page.TidyToolbars()
         Catch ex As Exception
             Notice.Fail(Me, "Could not load this page", "Please check that MySQL is running in XAMPP, then open the page again.", ex.Message)
         End Try
@@ -223,6 +224,12 @@ Public Class MainForm
         Dim r = If(radius < 0, c.Height \ 2, radius)
         c.Region = New Region(Theme.RoundedRect(New Rectangle(0, 0, c.Width, c.Height), r))
     End Sub
+
+    ''' <summary>"Maria Elena R. Bautista" → "Maria Bautista" (fits the sidebar without cutting).</summary>
+    Private Shared Function ShortName(fullName As String) As String
+        Dim parts = fullName.Split({" "c}, StringSplitOptions.RemoveEmptyEntries).Where(Function(p) Not p.EndsWith(".")).ToList()
+        Return If(parts.Count <= 2, String.Join(" ", parts), parts.First() & " " & parts.Last())
+    End Function
 
     Private Shared Function Initials(fullName As String) As String
         Dim parts = fullName.Split({" "c}, StringSplitOptions.RemoveEmptyEntries).

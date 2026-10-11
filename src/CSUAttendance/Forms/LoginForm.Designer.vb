@@ -25,7 +25,6 @@ Partial Class LoginForm
         Me.pnlBrand = New System.Windows.Forms.Panel()
         Me.pnlForm = New System.Windows.Forms.Panel()
         Me.pnlCard = New System.Windows.Forms.Panel()
-        Me.lblDb = New System.Windows.Forms.Label()
         Me.lblHint = New System.Windows.Forms.Label()
         Me.btnLogin = New Global.CSUAttendance.PillButton()
         Me.lblError = New System.Windows.Forms.Label()
@@ -62,7 +61,6 @@ Partial Class LoginForm
         'pnlCard
         '
         Me.pnlCard.BackColor = System.Drawing.Color.White
-        Me.pnlCard.Controls.Add(Me.lblDb)
         Me.pnlCard.Controls.Add(Me.lblHint)
         Me.pnlCard.Controls.Add(Me.btnLogin)
         Me.pnlCard.Controls.Add(Me.lblError)
@@ -75,19 +73,8 @@ Partial Class LoginForm
         Me.pnlCard.Controls.Add(Me.lblWelcome)
         Me.pnlCard.Location = New System.Drawing.Point(120, 110)
         Me.pnlCard.Name = "pnlCard"
-        Me.pnlCard.Size = New System.Drawing.Size(400, 480)
+        Me.pnlCard.Size = New System.Drawing.Size(400, 440)
         Me.pnlCard.TabIndex = 0
-        '
-        'lblDb
-        '
-        Me.lblDb.Font = New System.Drawing.Font("Segoe UI", 9.0!)
-        Me.lblDb.ForeColor = System.Drawing.Color.FromArgb(CType(CType(107, Byte), Integer), CType(CType(114, Byte), Integer), CType(CType(128, Byte), Integer))
-        Me.lblDb.Location = New System.Drawing.Point(0, 446)
-        Me.lblDb.Name = "lblDb"
-        Me.lblDb.Size = New System.Drawing.Size(400, 22)
-        Me.lblDb.TabIndex = 10
-        Me.lblDb.Text = "Checking database..."
-        Me.lblDb.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'lblHint
         '
@@ -212,7 +199,6 @@ Partial Class LoginForm
     Friend WithEvents pnlBrand As System.Windows.Forms.Panel
     Friend WithEvents pnlForm As System.Windows.Forms.Panel
     Friend WithEvents pnlCard As System.Windows.Forms.Panel
-    Friend WithEvents lblDb As System.Windows.Forms.Label
     Friend WithEvents lblHint As System.Windows.Forms.Label
     Friend WithEvents btnLogin As Global.CSUAttendance.PillButton
     Friend WithEvents lblError As System.Windows.Forms.Label
