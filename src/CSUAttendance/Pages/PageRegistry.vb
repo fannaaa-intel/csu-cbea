@@ -57,13 +57,13 @@ Public Module PageRegistry
         Select Case key
             ' ---------- built ----------
             Case "subjects" : Return New SubjectsPage()
+            Case "terms" : Return New TermsPage()
+            Case "sections" : Return New SectionsPage()
+            Case "teachers" : Return New TeachersPage()
+            Case "students" : Return New StudentsPage()
 
             ' ---------- Module 2: Admin data ----------
-            Case "students" : Return New PlaceholderPage("Students", 2)
-            Case "teachers" : Return New PlaceholderPage("Teachers", 2)
             Case "users" : Return New PlaceholderPage("User Accounts", 2)
-            Case "terms" : Return New PlaceholderPage("School Terms", 2)
-            Case "sections" : Return New PlaceholderPage("Sections", 2)
             Case "classes" : Return New PlaceholderPage("Classes", 2)
             Case "enrollment" : Return New PlaceholderPage("Enrollment", 2)
 
