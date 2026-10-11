@@ -39,6 +39,12 @@ Public Class MainForm
         Dim tip As New ToolTip()
         tip.SetToolTip(btnBell, "Notifications")
         tip.SetToolTip(btnLogout, "Log out")
+        ' Click your name or avatar (bottom of the sidebar) to change your password - every role
+        For Each c As Control In New Control() {pnlUser, lblUserName, lblUserRole, lblAvatar}
+            c.Cursor = Cursors.Hand
+            tip.SetToolTip(c, "Change password")
+            AddHandler c.Click, Sub() OpenChangePassword()
+        Next
 
         MakeRound(lblAvatar)
         MakeRound(lblLogo)                       ' circular CSU seal
@@ -235,6 +241,12 @@ Public Class MainForm
     Private Shared Sub MakeRound(c As Control, Optional radius As Integer = -1)
         Dim r = If(radius < 0, c.Height \ 2, radius)
         c.Region = New Region(Theme.RoundedRect(New Rectangle(0, 0, c.Width, c.Height), r))
+    End Sub
+
+    Private Sub OpenChangePassword()
+        Using f As New ChangePasswordForm()
+            If f.ShowDialog(Me) = DialogResult.OK Then Toast.Show(Me, "Password changed", "Success")
+        End Using
     End Sub
 
     ''' <summary>"Maria Elena R. Bautista" → "Maria Bautista" (fits the sidebar without cutting).</summary>
