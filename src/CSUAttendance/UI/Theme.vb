@@ -459,4 +459,7 @@ Public Module Icons
     Public Const People As String = ChrW(&HE716)
     Public Const CheckList As String = ChrW(&HE9D5)
     Public Const Scan As String = ChrW(&HE8B3)
+    Public Const ChevronDown As String = ChrW(&HE70D)
+    Public Const ChevronUp As String = ChrW(&HE70E)
+    Public Const Attach As String = ChrW(&HE723)
 End Module

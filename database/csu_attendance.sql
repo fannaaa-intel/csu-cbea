@@ -145,7 +145,8 @@ CREATE TABLE attendance_records (
     status              ENUM('Present','Late','Absent','Excused') NOT NULL DEFAULT 'Present',
     time_in             TIME NULL,
     hours_absent        DECIMAL(4,2) NOT NULL DEFAULT 0,  -- = session hours when Absent/Excused, else 0
-    remarks             VARCHAR(255) NULL,
+    remarks             VARCHAR(255) NULL,                -- reason; required for Late, Absent and Excused
+    attachment_path     VARCHAR(255) NULL,                -- proof file in the app's attachments folder (optional)
     excuse_requirement  VARCHAR(255) NULL,                -- what the faculty requires in lieu of attendance
     excuse_status       ENUM('Pending','Complied') NULL,  -- Excused + Pending counts as absent; Complied does not
     updated_by          INT NULL,
@@ -3678,5 +3679,21 @@ INSERT INTO notifications (user_id, title, message, type, is_read, created_at) V
 (4, 'Warning 1 - ACC 313', 'Joshua Lappay reached Warning 1 in ACC 313 (11.1% absent).', 'Warning', 0, '2026-10-09 17:00:00'),
 (11, 'Frequent tardiness', 'You have been late 3 times in AIS 314. Please see your instructor.', 'Warning', 0, '2026-10-09 17:00:00'),
 (2, 'Frequent tardiness', 'Bea Lagundi has been late 3 times in AIS 314 (guidance referral suggested).', 'Warning', 0, '2026-10-09 17:00:00');
+-- Demo data: give every existing Late / Absent / Excused mark a reason
+UPDATE attendance_records
+SET remarks = ELT(1 + record_id % 5, 'Heavy traffic on the way to campus', 'Tricycle/jeepney delay',
+                  'Came from a class across campus', 'Heavy rain', 'Overslept')
+WHERE status = 'Late' AND (remarks IS NULL OR remarks = '');
+
+UPDATE attendance_records
+SET remarks = ELT(1 + record_id % 5, 'Sick (fever)', 'Family emergency', 'Flooded road, no transportation',
+                  'Medical check-up', 'Did not inform the instructor')
+WHERE status = 'Absent' AND (remarks IS NULL OR remarks = '');
+
+UPDATE attendance_records
+SET remarks = ELT(1 + record_id % 3, 'Represented CSU in a provincial sports meet', 'Attended a university seminar',
+                  'Hospitalized (medical certificate submitted)')
+WHERE status = 'Excused' AND (remarks IS NULL OR remarks = '');
+
 INSERT INTO audit_log (user_id, action, entity, entity_id, details, created_at) VALUES (1, 'SEED', 'System', NULL, 'Demo data loaded', NOW());
 SET FOREIGN_KEY_CHECKS = 1;

@@ -43,12 +43,14 @@ Admins can also take or edit attendance for any class, at any time (open a sessi
 
 1. **Dashboard** → *Today's classes* shows each class meeting today. Click **Take attendance**.
 2. On **Take Attendance**, everyone starts as **Present**. Click **P / L / A / E** for each student, or use the keyboard:
-   - **↑ / ↓** move between students, **P L A E** set the status, **F2** types a remark, **Ctrl+S** saves.
+   - **↑ / ↓** move between students, **P L A E** set the status, **F2** edits the reason, **Ctrl+S** saves.
    - **Quick check-in**: type or scan a student no. and press **Enter**. The student is marked Present, or Late if more than 15 minutes after the start.
-   - **E (Excused)** asks what the student must do instead (e.g. a reflection paper). The hours count as absent until the requirement is **Complied**.
+   - **L, A and E always ask for a reason** (required) and let you **attach a file** (photo or PDF of the excuse letter / medical certificate). Click the reason or the paperclip later to change it.
+   - **E (Excused)** also asks what the student must do instead (e.g. a reflection paper). The hours count as absent until the requirement is **Complied**.
+   - Save is blocked while any Late / Absent / Excused student has no reason (quick check-in Lates show *Reason required* in red).
 3. Click **Save attendance**. A message tells you if any student reached Warning 1 / Warning 2 / Dropped; they are notified automatically.
 4. **Attendance Records** → *Sessions*: double-click a session to edit it (allowed for 3 days). *Pending excuses*: select → **Mark complied**.
-5. **My Students**: each student's hours absent, % and status, at-risk students first. Double-click a student for their history.
+5. **Section Attendance**: pick a **section**, then one subject or **All subjects**. Every student is listed with P / L / A / E counts and status, at-risk students first. Click the **V** button (or double-click) to open the student's meetings right under the row: date, status, time in, reason and **View attachment**. Hover a name to see the latest five meetings. **Hours & history** shows the absence-hours bar for one subject.
 6. **Reports**: choose a report → **Print preview** → printer icon → **Microsoft Print to PDF** to save a PDF, or **Export CSV** to open in Excel.
 
 ## 5. Student

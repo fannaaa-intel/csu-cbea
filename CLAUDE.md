@@ -25,7 +25,7 @@ src/CSUAttendance/UI/Controls/     CardPanel, TextField, StatusBadge, NavButton,
 src/CSUAttendance/Forms/           LoginForm, MainForm (shell), ChangePasswordForm
 src/CSUAttendance/Pages/           PageBase, PageRegistry (menu + role guard + factory), SubjectsPage (REFERENCE list page) + all module pages
 src/CSUAttendance/Dialogs/         SubjectDialog (REFERENCE add/edit dialog) + all module dialogs
-src/CSUAttendance/Core/            also Lookups (term/section/class combos), ReportPrinter, CsvExporter, TextUtil
+src/CSUAttendance/Core/            also Lookups (term/section/class combos), ReportPrinter, CsvExporter, TextUtil, Attachments (proof files)
 docs/                              WORK_ORDER.md, PROMPTS.md, BUSINESS_RULES.md, USER_GUIDE.md, DEFENSE_SCRIPT.md
 ```
 

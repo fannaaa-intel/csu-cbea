@@ -144,7 +144,8 @@ CREATE TABLE attendance_records (
     status              ENUM('Present','Late','Absent','Excused') NOT NULL DEFAULT 'Present',
     time_in             TIME NULL,
     hours_absent        DECIMAL(4,2) NOT NULL DEFAULT 0,  -- = session hours when Absent/Excused, else 0
-    remarks             VARCHAR(255) NULL,
+    remarks             VARCHAR(255) NULL,                -- reason; required for Late, Absent and Excused
+    attachment_path     VARCHAR(255) NULL,                -- proof file in the app's attachments folder (optional)
     excuse_requirement  VARCHAR(255) NULL,                -- what the faculty requires in lieu of attendance
     excuse_status       ENUM('Pending','Complied') NULL,  -- Excused + Pending counts as absent; Complied does not
     updated_by          INT NULL,

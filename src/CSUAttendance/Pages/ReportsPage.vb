@@ -261,7 +261,7 @@ Public Class ReportsPage
         Ui.Col(grid, "session_date", "Date", 12, "MMM d, yyyy")
         Ui.Col(grid, "status", "Status", 14)
         Ui.Col(grid, "time_in", "Time in", 12)
-        Ui.Col(grid, "remarks", "Remarks", 14)
+        Ui.Col(grid, "remarks", "Reason / remarks", 14)
         Ui.Col(grid, "present_count", "Present", 7)
         Ui.Col(grid, "late_count", "Late", 6)
         Ui.Col(grid, "absent_count", "Absent", 7)

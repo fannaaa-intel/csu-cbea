@@ -66,7 +66,7 @@ Public Class StudentHistoryDialog
         Ui.Col(grid, "status", "Status", 14)
         Ui.Col(grid, "time_in", "Time in", 12)
         Ui.Col(grid, "hours_absent", "Hours", 10, "0.0#")
-        Ui.Col(grid, "notes", "Remarks / requirement", 40)
+        Ui.Col(grid, "notes", "Reason / requirement", 40)
         Ui.Hide(grid, "day_name")
         AddHandler grid.CellPainting, Sub(sender2, ev) If ev.ColumnIndex >= 0 AndAlso grid.Columns(ev.ColumnIndex).Name = "status" Then Theme.PaintBadgeCell(ev)
         AddHandler grid.CellFormatting, Sub(sender2, ev)

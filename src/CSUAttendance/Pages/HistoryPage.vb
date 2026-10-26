@@ -34,6 +34,7 @@ Public Class HistoryPage
         AddHandler cboSubject.SelectedIndexChanged, Sub() If Not _loading Then LoadData()
         AddHandler grid.CellPainting, Sub(s, e) If e.ColumnIndex >= 0 AndAlso (grid.Columns(e.ColumnIndex).Name = "status" OrElse grid.Columns(e.ColumnIndex).Name = "excuse_status") Then Theme.PaintBadgeCell(e)
         AddHandler grid.CellFormatting, AddressOf FormatTime
+        AddHandler grid.CellClick, AddressOf OpenAttachment
     End Sub
 
     Public Overrides Sub OnPageShown()
@@ -58,7 +59,7 @@ Public Class HistoryPage
         Dim code = If(cboSubject.SelectedValue Is Nothing, "", CStr(cboSubject.SelectedValue))
         Dim dt = Db.Query(
             "SELECT s.session_date, DATE_FORMAT(s.session_date, '%a') AS day_name, sub.subject_code, ar.status, ar.time_in, " &
-            "       ar.remarks, ar.excuse_requirement, ar.excuse_status " &
+            "       ar.remarks, ar.attachment_path, ar.excuse_requirement, ar.excuse_status " &
             "FROM attendance_records ar JOIN attendance_sessions s ON s.session_id = ar.session_id " &
             "JOIN classes c ON c.class_id = s.class_id JOIN subjects sub ON sub.subject_id = c.subject_id " &
             "JOIN school_terms t ON t.term_id = c.term_id AND t.is_active = 1 " &
@@ -70,7 +71,8 @@ Public Class HistoryPage
         Ui.Col(grid, "subject_code", "Subject", 10)
         Ui.Col(grid, "status", "Status", 11)
         Ui.Col(grid, "time_in", "Time in", 9)
-        Ui.Col(grid, "remarks", "Remarks", 18)
+        Ui.Col(grid, "remarks", "Reason / remarks", 18)
+        Ui.Col(grid, "attachment_path", "Attachment", 10)
         Ui.Col(grid, "excuse_requirement", "Requirement", 22)
         Ui.Col(grid, "excuse_status", "Excuse", 11)
         Dim count = Function(s As String) dt.Rows.Cast(Of DataRow)().Count(Function(r) Db.ToStr(r("status")) = s).ToString()
@@ -80,10 +82,22 @@ Public Class HistoryPage
     End Sub
 
     Private Sub FormatTime(sender As Object, e As DataGridViewCellFormattingEventArgs)
-        If e.ColumnIndex >= 0 AndAlso grid.Columns(e.ColumnIndex).Name = "time_in" AndAlso TypeOf e.Value Is TimeSpan Then
+        If e.ColumnIndex < 0 Then Return
+        Dim name = grid.Columns(e.ColumnIndex).Name
+        If name = "time_in" AndAlso TypeOf e.Value Is TimeSpan Then
             e.Value = Date.Today.Add(DirectCast(e.Value, TimeSpan)).ToString("h:mm tt")
             e.FormattingApplied = True
+        ElseIf name = "attachment_path" AndAlso Db.ToStr(e.Value) <> "" Then
+            e.Value = "View file"                ' click the cell to open it
+            e.CellStyle.ForeColor = Theme.Accent
+            e.CellStyle.Font = Theme.FontSmallBold
+            e.FormattingApplied = True
         End If
+    End Sub
+
+    Private Sub OpenAttachment(sender As Object, e As DataGridViewCellEventArgs)
+        If e.RowIndex < 0 OrElse e.ColumnIndex < 0 OrElse grid.Columns(e.ColumnIndex).Name <> "attachment_path" Then Return
+        Attachments.Open(Me, Db.ToStr(grid.Rows(e.RowIndex).Cells(e.ColumnIndex).Value))
     End Sub
 
 End Class

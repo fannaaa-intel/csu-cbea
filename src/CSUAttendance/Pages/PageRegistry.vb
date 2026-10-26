@@ -33,6 +33,7 @@ Public Module PageRegistry
                     New NavItem("classes", "Classes", Icons.Classes, "Records"),
                     New NavItem("enrollment", "Enrollment", Icons.Enrollment, "Records"),
                     New NavItem("records", "Attendance Records", Icons.Records, "Attendance"),
+                    New NavItem("mystudents", "Section Attendance", Icons.Sections, "Attendance"),
                     New NavItem("reports", "Reports", Icons.Reports, "Attendance"),
                     New NavItem("settings", "Settings", Icons.Settings, "System"),
                     New NavItem("audit", "Audit Log", Icons.AuditLog, "System")
@@ -42,7 +43,7 @@ Public Module PageRegistry
                     New NavItem("dashboard", "Dashboard", Icons.Dashboard),
                     New NavItem("take", "Take Attendance", Icons.TakeAttendance, "Attendance"),
                     New NavItem("records", "Attendance Records", Icons.Records, "Attendance"),
-                    New NavItem("mystudents", "My Students", Icons.Students, "Attendance"),
+                    New NavItem("mystudents", "Section Attendance", Icons.Sections, "Attendance"),
                     New NavItem("reports", "Reports", Icons.Reports, "Reports")
                 }
             Case Else ' Student
@@ -85,7 +86,7 @@ Public Module PageRegistry
             ' ---------- attendance ----------
             Case "take" : Return New TakeAttendancePage()
             Case "records" : Return New RecordsPage()
-            Case "mystudents" : Return New MyStudentsPage()
+            Case "mystudents" : Return New SectionAttendancePage()
             Case "reports" : Return New ReportsPage()
 
             ' ---------- student ----------

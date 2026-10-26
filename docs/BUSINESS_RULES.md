@@ -25,6 +25,7 @@ All rules follow the **Cagayan State University Student Manual (Revised 2019)**.
 | R7 | **Frequent tardiness** alert (guidance referral, CSU s.III.B.6.5) after N lates in one class. | 3 | `tardy_alert_count` |
 | R8 | Optional: convert N lates into 1 absence. **Off by default** because the CSU manual has no such rule. | 0 (off) | `lates_per_absence` |
 | R9 | **Excused** absences need a faculty requirement (e.g. make-up activity). While **Pending** they count as absent; once **Complied** they no longer count. (CSU s.II.B.4) | — | `attendance_records.excuse_status` |
+| R9a | Every **Late, Absent and Excused** mark needs a **reason** (school rule for this system). A photo/PDF proof (excuse letter, medical certificate) can be attached; it is copied to the app's `attachments` folder. Attendance cannot be saved while a reason is missing. | — | `attendance_records.remarks`, `attachment_path` |
 | R10 | A teacher may edit a saved attendance session for N days; Admin anytime. Every edit is in the audit log. | 3 days | `edit_window_days` |
 | R11 | Warnings are issued once per level per student per class and are kept as a record even if attendance is later corrected. The **current** status always comes from `v_attendance_status`. | — | `attendance_warnings` |
 | R12 | "Dropped" in the system means the student **reached the drop limit**. The official dropping is processed by the Registrar; the system flags it and notifies the student, teacher and Admin. | — | — |

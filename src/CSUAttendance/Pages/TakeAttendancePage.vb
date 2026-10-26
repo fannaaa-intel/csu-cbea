@@ -13,11 +13,21 @@ Public Class RosterEntry
     Public Property Remarks As String = ""
     Public Property Requirement As String = ""
     Public Property ExcuseStatus As String = ""
+    ''' <summary>Stored file name, or the full path of a file picked but not saved yet ("" = none).</summary>
+    Public Property Attachment As String = ""
+
+    ''' <summary>Late, Absent and Excused must have a reason before the session can be saved.</summary>
+    Public ReadOnly Property NeedsReason As Boolean
+        Get
+            Return Status <> "Present" AndAlso Remarks.Trim() = ""
+        End Get
+    End Property
 End Class
 
 ''' <summary>
 ''' Take Attendance: pick class + date, mark each student P / L / A / E, save in one transaction.
-''' Keyboard: Up/Down move, P L A E set the status, F2 edits remarks, Ctrl+S saves.
+''' Late / Absent / Excused ask for a reason (required) and an optional attachment (ReasonDialog).
+''' Keyboard: Up/Down move, P L A E set the status, F2 edits the reason, Ctrl+S saves.
 ''' Teachers can edit a saved session for edit_window_days; Admin always (AttendanceRules.CanEditSession).
 ''' </summary>
 Public Class TakeAttendancePage
@@ -128,9 +138,12 @@ Public Class TakeAttendancePage
             c.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter
         Next
         FixedWidth(AddColumn("time_in", "Time in", 9), 100)
-        Dim remarks = AddColumn("remarks", "Remarks", 40)
+        Dim remarks = AddColumn("remarks", "Reason / remarks", 40)
         remarks.ReadOnly = False
         remarks.DefaultCellStyle.ForeColor = Theme.TextMuted
+        Dim attach = AddColumn("attach", "File", 4)
+        FixedWidth(attach, 60)
+        attach.ToolTipText = "Attachment (excuse letter, medical certificate)"
     End Sub
 
     Private Shared Sub FixedWidth(c As DataGridViewColumn, width As Integer)
@@ -226,7 +239,7 @@ Public Class TakeAttendancePage
             Dim dt = Db.Query(
                 "SELECT s.student_id, s.student_no, " & TextUtil.SortableNameSql("s") & " AS student_name, " &
                 "       COALESCE(v.attendance_status, 'Good') AS standing, v.late_count, " &
-                "       ar.status, ar.time_in, ar.remarks, ar.excuse_requirement, ar.excuse_status " &
+                "       ar.status, ar.time_in, ar.remarks, ar.attachment_path, ar.excuse_requirement, ar.excuse_status " &
                 "FROM class_enrollments e JOIN students s ON s.student_id = e.student_id " &
                 "LEFT JOIN attendance_records ar ON ar.session_id = @sid AND ar.student_id = s.student_id " &
                 "LEFT JOIN v_attendance_status v ON v.class_id = e.class_id AND v.student_id = e.student_id " &
@@ -240,7 +253,8 @@ Public Class TakeAttendancePage
                     .StudentId = Db.ToInt(r("student_id")), .StudentNo = Db.ToStr(r("student_no")), .Name = Db.ToStr(r("student_name")),
                     .Standing = standing, .Status = If(Db.ToStr(r("status")) = "", "Present", Db.ToStr(r("status"))),
                     .TimeIn = If(r("time_in") Is DBNull.Value, CType(Nothing, TimeSpan?), Db.ToTime(r("time_in"))),
-                    .Remarks = Db.ToStr(r("remarks")), .Requirement = Db.ToStr(r("excuse_requirement")), .ExcuseStatus = Db.ToStr(r("excuse_status"))
+                    .Remarks = Db.ToStr(r("remarks")), .Requirement = Db.ToStr(r("excuse_requirement")), .ExcuseStatus = Db.ToStr(r("excuse_status")),
+                    .Attachment = Db.ToStr(r("attachment_path"))
                 })
             Next
 
@@ -265,7 +279,7 @@ Public Class TakeAttendancePage
         grid.Rows.Clear()
         For i = 0 To _roster.Count - 1
             Dim en = _roster(i)
-            Dim idx = grid.Rows.Add(i + 1, en.StudentNo, en.Name, en.Standing, "", "", "", "", TimeText(en), en.Remarks)
+            Dim idx = grid.Rows.Add(i + 1, en.StudentNo, en.Name, en.Standing, "", "", "", "", TimeText(en), en.Remarks, "")
             grid.Rows(idx).Tag = en
         Next
         emptyRoster.Text = "No students are enrolled in this class yet. Enroll them on the Enrollment page."
@@ -283,19 +297,41 @@ Public Class TakeAttendancePage
     Private Sub SetStatus(rowIndex As Integer, status As String)
         If _locked OrElse rowIndex < 0 OrElse rowIndex >= _roster.Count Then Return
         Dim en = _roster(rowIndex)
-        If status = "Excused" Then
-            Using f As New ExcuseDialog(en.Name, en.Requirement)
-                If f.ShowDialog(FindForm()) <> DialogResult.OK Then Return
-                en.Requirement = f.Requirement
-                If en.ExcuseStatus = "" Then en.ExcuseStatus = "Pending"
-            End Using
-        Else
+        If status <> "Present" AndAlso Not AskReason(en, status) Then Return
+        If status <> "Excused" Then
             en.Requirement = ""
             en.ExcuseStatus = ""
+        ElseIf en.ExcuseStatus = "" Then
+            en.ExcuseStatus = "Pending"
         End If
         If status = "Absent" OrElse status = "Excused" Then en.TimeIn = Nothing
         en.Status = status
         grid.Rows(rowIndex).Cells("time_in").Value = TimeText(en)
+        grid.Rows(rowIndex).Cells("remarks").Value = en.Remarks
+        MarkDirty()
+        grid.InvalidateRow(rowIndex)
+    End Sub
+
+    ''' <summary>Opens the reason dialog for a Late / Absent / Excused mark. False = the teacher cancelled.</summary>
+    Private Function AskReason(en As RosterEntry, status As String) As Boolean
+        Using f As New ReasonDialog(en.Name, status, en.Remarks, en.Requirement, en.Attachment)
+            If f.ShowDialog(FindForm()) <> DialogResult.OK Then Return False
+            en.Remarks = f.Reason
+            en.Attachment = f.Attachment
+            If status = "Excused" Then en.Requirement = f.Requirement
+        End Using
+        Return True
+    End Function
+
+    ''' <summary>Edit the reason / attachment of a row that is already Late, Absent or Excused.</summary>
+    Private Sub EditReason(rowIndex As Integer)
+        Dim en = _roster(rowIndex)
+        If _locked Then
+            Attachments.Open(Me, en.Attachment)
+            Return
+        End If
+        If Not AskReason(en, en.Status) Then Return
+        grid.Rows(rowIndex).Cells("remarks").Value = en.Remarks
         MarkDirty()
         grid.InvalidateRow(rowIndex)
     End Sub
@@ -340,7 +376,7 @@ Public Class TakeAttendancePage
         en.ExcuseStatus = ""
         grid.Rows(index).Cells("time_in").Value = TimeText(en)
         lblCheckIn.ForeColor = If(en.Status = "Late", Theme.Warning, Theme.Success)
-        lblCheckIn.Text = $"{en.Name.Split(","c)(0)} · {en.Status}"
+        lblCheckIn.Text = $"{en.Name.Split(","c)(0)} · {en.Status}{If(en.NeedsReason, " · add a reason", "")}"
         txtCheckIn.Text = ""
         grid.CurrentCell = grid.Rows(index).Cells("name")
         _flashRow = index
@@ -354,10 +390,13 @@ Public Class TakeAttendancePage
         If e.RowIndex < 0 OrElse e.ColumnIndex < 0 Then Return
         Dim name = grid.Columns(e.ColumnIndex).Name
         Dim i = Array.IndexOf(Letters, name)
+        Dim en = _roster(e.RowIndex)
         If i >= 0 Then
             SetStatus(e.RowIndex, AttendanceRules.Statuses(i))
+        ElseIf (name = "remarks" OrElse name = "attach") AndAlso en.Status <> "Present" Then
+            EditReason(e.RowIndex)              ' the reason of L / A / E is edited in the dialog
         ElseIf name = "remarks" AndAlso Not _locked Then
-            grid.BeginEdit(True)
+            grid.BeginEdit(True)                ' Present rows: optional free-text remarks
         End If
     End Sub
 
@@ -368,8 +407,12 @@ Public Class TakeAttendancePage
             SetStatus(grid.CurrentRow.Index, AttendanceRules.Statuses(i))
             e.Handled = True
         ElseIf e.KeyCode = Keys.F2 AndAlso Not _locked Then
-            grid.CurrentCell = grid.CurrentRow.Cells("remarks")
-            grid.BeginEdit(True)
+            If _roster(grid.CurrentRow.Index).Status <> "Present" Then
+                EditReason(grid.CurrentRow.Index)
+            Else
+                grid.CurrentCell = grid.CurrentRow.Cells("remarks")
+                grid.BeginEdit(True)
+            End If
             e.Handled = True
         End If
     End Sub
@@ -403,6 +446,12 @@ Public Class TakeAttendancePage
         Dim name = grid.Columns(e.ColumnIndex).Name
         If name = "standing" Then
             Theme.PaintBadgeCell(e)
+            Return
+        ElseIf name = "attach" Then
+            PaintAttachCell(e)
+            Return
+        ElseIf name = "remarks" AndAlso _roster(e.RowIndex).NeedsReason Then
+            PaintReasonRequired(e)
             Return
         End If
         Dim letterIndex = Array.IndexOf(Letters, name)
@@ -447,6 +496,29 @@ Public Class TakeAttendancePage
         e.Handled = True
     End Sub
 
+    ''' <summary>Red "Reason required" in the reason cell of a Late / Absent / Excused row without a reason.</summary>
+    Private Sub PaintReasonRequired(e As DataGridViewCellPaintingEventArgs)
+        Theme.FillCell(e)
+        Dim r As New Rectangle(e.CellBounds.X + Theme.Dpi(10), e.CellBounds.Y, e.CellBounds.Width - Theme.Dpi(16), e.CellBounds.Height)
+        TextRenderer.DrawText(e.Graphics, If(_locked, "No reason recorded", "Reason required - click to add"), Theme.FontSmallBold, r, Theme.Danger,
+                              TextFormatFlags.VerticalCenter Or TextFormatFlags.EndEllipsis)
+        Theme.DrawRowLine(e)
+        e.Handled = True
+    End Sub
+
+    ''' <summary>Paperclip: rose when a file is attached, faint on L / A / E rows (click to attach), empty for Present.</summary>
+    Private Sub PaintAttachCell(e As DataGridViewCellPaintingEventArgs)
+        Theme.FillCell(e)
+        Dim en = _roster(e.RowIndex)
+        Dim tint = If(en.Attachment <> "", Theme.Accent, If(en.Status <> "Present" AndAlso Not _locked, Theme.Border, Color.Empty))
+        If Not tint.IsEmpty Then
+            TextRenderer.DrawText(e.Graphics, Icons.Attach, Theme.FontIcon, e.CellBounds, tint,
+                                  TextFormatFlags.HorizontalCenter Or TextFormatFlags.VerticalCenter)
+        End If
+        Theme.DrawRowLine(e)
+        e.Handled = True
+    End Sub
+
     ' =====================================================================
     '  Counters + buttons
     ' =====================================================================
@@ -459,7 +531,7 @@ Public Class TakeAttendancePage
         Else
             lblSession.Text = ""
         End If
-        lblRosterNote.Text = If(_roster.Count = 0, "", $"{Ui.Plural(_roster.Count, "student")}{If(_dirty, "  ·  unsaved changes", "  ·  keys: P L A E mark · F2 remarks · Ctrl+S save")}")
+        lblRosterNote.Text = If(_roster.Count = 0, "", $"{Ui.Plural(_roster.Count, "student")}{If(_dirty, "  ·  unsaved changes", "  ·  keys: P L A E mark · F2 reason · Ctrl+S save")}")
         lblRosterNote.ForeColor = If(_dirty, Theme.Warning, Theme.TextMuted)
         Dim canEdit = Not _locked AndAlso _roster.Count > 0
         btnSave.Enabled = canEdit AndAlso (_dirty OrElse Not _sessionExists)
@@ -472,13 +544,14 @@ Public Class TakeAttendancePage
     '  Save
     ' =====================================================================
     Private Sub SaveAttendance()
-        If Not btnSave.Enabled Then Return
+        If Not btnSave.Enabled OrElse Not AllReasonsGiven() Then Return
         Dim classId = Me.ClassId
         Dim day = dtpDate.Value.Date
         Dim hours = AttendanceRules.SessionHours(Db.ToTime(_classRow("start_time")), Db.ToTime(_classRow("end_time")))
         Dim sessionId = 0
         Try
             Cursor = Cursors.WaitCursor
+            StoreNewAttachments(classId, day)
             Db.InTransaction(
                 Sub(cn, tx)
                     Db.Execute(cn, tx,
@@ -490,13 +563,13 @@ Public Class TakeAttendancePage
                     For Each en In _roster
                         Dim excused = en.Status = "Excused"
                         Db.Execute(cn, tx,
-                            "INSERT INTO attendance_records (session_id, student_id, status, time_in, hours_absent, remarks, excuse_requirement, excuse_status, updated_by) " &
-                            "VALUES (@s, @st, @status, @t, @ha, @rem, @req, @es, @u) " &
+                            "INSERT INTO attendance_records (session_id, student_id, status, time_in, hours_absent, remarks, attachment_path, excuse_requirement, excuse_status, updated_by) " &
+                            "VALUES (@s, @st, @status, @t, @ha, @rem, @file, @req, @es, @u) " &
                             "ON DUPLICATE KEY UPDATE status = VALUES(status), time_in = VALUES(time_in), hours_absent = VALUES(hours_absent), " &
-                            "remarks = VALUES(remarks), excuse_requirement = VALUES(excuse_requirement), excuse_status = VALUES(excuse_status), updated_by = VALUES(updated_by)",
+                            "remarks = VALUES(remarks), attachment_path = VALUES(attachment_path), excuse_requirement = VALUES(excuse_requirement), excuse_status = VALUES(excuse_status), updated_by = VALUES(updated_by)",
                             Db.P("@s", sessionId), Db.P("@st", en.StudentId), Db.P("@status", en.Status),
                             Db.P("@t", If(en.TimeIn.HasValue, CObj(en.TimeIn.Value), Nothing)),
-                            Db.P("@ha", AttendanceRules.HoursAbsentFor(en.Status, hours)), Db.P("@rem", TextUtil.OrNull(en.Remarks)),
+                            Db.P("@ha", AttendanceRules.HoursAbsentFor(en.Status, hours)), Db.P("@rem", TextUtil.OrNull(en.Remarks)), Db.P("@file", TextUtil.OrNull(en.Attachment)),
                             Db.P("@req", If(excused, TextUtil.OrNull(en.Requirement), Nothing)),
                             Db.P("@es", If(excused, TextUtil.OrNull(If(en.ExcuseStatus = "", "Pending", en.ExcuseStatus)), Nothing)),
                             Db.P("@u", Session.UserId))
@@ -515,6 +588,25 @@ Public Class TakeAttendancePage
         Finally
             Cursor = Cursors.Default
         End Try
+    End Sub
+
+    ''' <summary>Late / Absent / Excused need a reason: warns, selects the first row without one, and returns False.</summary>
+    Private Function AllReasonsGiven() As Boolean
+        Dim missing = _roster.Where(Function(x) x.NeedsReason).ToList()
+        If missing.Count = 0 Then Return True
+        Dim names = String.Join(vbCrLf, missing.Take(6).Select(Function(x) $"•  {x.Name} ({x.Status})"))
+        If missing.Count > 6 Then names &= $"{vbCrLf}•  ... and {missing.Count - 6} more"
+        Notice.Warn(Me, "Reason required", $"Every Late, Absent and Excused mark needs a reason before saving:{vbCrLf}{vbCrLf}{names}")
+        Dim first = _roster.IndexOf(missing(0))
+        grid.CurrentCell = grid.Rows(first).Cells("remarks")
+        Return False
+    End Function
+
+    ''' <summary>Copies files picked in the reason dialog into the attachments folder (the roster then keeps the stored name).</summary>
+    Private Sub StoreNewAttachments(classId As Integer, day As Date)
+        For Each en In _roster.Where(Function(x) IO.Path.IsPathRooted(x.Attachment))
+            en.Attachment = Attachments.Store(en.Attachment, $"{en.StudentNo}_class{classId}_{day:yyyyMMdd}")
+        Next
     End Sub
 
     ''' <summary>"Attendance saved" or "Attendance saved · 2 students reached Warning 1".</summary>
